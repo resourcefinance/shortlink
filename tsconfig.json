@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "target": "ES2017",
+    "declaration": true,
+    "module": "commonjs",
+    "lib": ["esnext", "dom"],
+    "strict": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declarationDir": "./dist",
+    "outDir": "./dist",
+    "typeRoots": ["node_modules/@types", "node_modules/.prisma/client"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "./dist"]
+}

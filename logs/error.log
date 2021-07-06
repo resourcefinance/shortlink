@@ -1,0 +1,331 @@
+2021-07-03T17:55:56.799Z [31merror[39m: [31mPrismaClientKnownRequestError2 [PrismaClientKnownRequestError]: [39m
+[31mInvalid `prisma.user.create()` invocation:[39m
+
+
+[31m  Unique constraint failed on the fields: (`userId`)[39m
+[31m    at cb (/Users/sayertindall/Documents/resource/guardian/node_modules/@prisma/client/runtime/index.js:33896:17)[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  code: 'P2002',[39m
+[31m  clientVersion: '2.26.0',[39m
+[31m  meta: { target: [ 'userId' ] }[39m
+[31m}[39m
+2021-07-03T17:55:58.304Z [31merror[39m: [31mPrismaClientKnownRequestError2 [PrismaClientKnownRequestError]: [39m
+[31mInvalid `prisma.user.create()` invocation:[39m
+
+
+[31m  Unique constraint failed on the fields: (`userId`)[39m
+[31m    at cb (/Users/sayertindall/Documents/resource/guardian/node_modules/@prisma/client/runtime/index.js:33896:17)[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  code: 'P2002',[39m
+[31m  clientVersion: '2.26.0',[39m
+[31m  meta: { target: [ 'userId' ] }[39m
+[31m}[39m
+2021-07-03T18:03:35.472Z [31merror[39m: [31mPrismaClientKnownRequestError2 [PrismaClientKnownRequestError]: [39m
+[31mInvalid `prisma.user.create()` invocation:[39m
+
+
+[31m  Unique constraint failed on the fields: (`userId`)[39m
+[31m    at cb (/Users/sayertindall/Documents/resource/guardian/node_modules/@prisma/client/runtime/index.js:33896:17)[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  code: 'P2002',[39m
+[31m  clientVersion: '2.26.0',[39m
+[31m  meta: { target: [ 'userId' ] }[39m
+[31m}[39m
+2021-07-03T18:03:43.599Z [31merror[39m: [31mPrismaClientKnownRequestError2 [PrismaClientKnownRequestError]: [39m
+[31mInvalid `prisma.user.create()` invocation:[39m
+
+
+[31m  Unique constraint failed on the fields: (`userId`)[39m
+[31m    at cb (/Users/sayertindall/Documents/resource/guardian/node_modules/@prisma/client/runtime/index.js:33896:17)[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  code: 'P2002',[39m
+[31m  clientVersion: '2.26.0',[39m
+[31m  meta: { target: [ 'userId' ] }[39m
+[31m}[39m
+2021-07-03T20:44:10.701Z [31merror[39m: [31m[39m
+[31mInvalid `prisma.user.create()` invocation:[39m
+
+
+[31m  Unique constraint failed on the fields: (`userId`)[39m
+2021-07-03T20:48:08.174Z [31merror[39m: [31mP2002[39m
+2021-07-03T20:50:25.951Z [31merror[39m: [31mP2002[39m
+2021-07-03T20:51:25.986Z [31merror[39m: [31mP2002[39m
+2021-07-03T21:12:20.851Z [31merror[39m: [31mValidationError: body.email is a required field[39m
+[31m    at createError (/Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:54:21)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:72:107[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  value: {[39m
+[31m    body: { email: undefined, validateEmailToken: undefined },[39m
+[31m    validateEmailToken: '270879',[39m
+[31m    email: 'sayer.tindall'[39m
+[31m  },[39m
+[31m  path: 'body.email',[39m
+[31m  type: 'required',[39m
+[31m  errors: [ 'body.email is a required field' ],[39m
+[31m  inner: [],[39m
+[31m  params: {[39m
+[31m    value: undefined,[39m
+[31m    originalValue: undefined,[39m
+[31m    label: undefined,[39m
+[31m    path: 'body.email'[39m
+[31m  }[39m
+[31m}[39m
+2021-07-03T21:13:43.838Z [31merror[39m: [31mValidationError: body.email is a required field[39m
+[31m    at createError (/Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:54:21)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:72:107[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  value: {[39m
+[31m    body: { email: undefined, validateEmailToken: undefined },[39m
+[31m    validateEmailToken: '270879',[39m
+[31m    email: 'sayer.tindall'[39m
+[31m  },[39m
+[31m  path: 'body.email',[39m
+[31m  type: 'required',[39m
+[31m  errors: [ 'body.email is a required field' ],[39m
+[31m  inner: [],[39m
+[31m  params: {[39m
+[31m    value: undefined,[39m
+[31m    originalValue: undefined,[39m
+[31m    label: undefined,[39m
+[31m    path: 'body.email'[39m
+[31m  }[39m
+[31m}[39m
+2021-07-03T21:13:56.087Z [31merror[39m: [31mValidationError: body.email is a required field[39m
+[31m    at createError (/Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:54:21)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:72:107[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  value: {[39m
+[31m    body: { email: undefined, validateEmailToken: undefined },[39m
+[31m    validateEmailToken: '270879',[39m
+[31m    email: 'sayer.tindall@gmail.'[39m
+[31m  },[39m
+[31m  path: 'body.email',[39m
+[31m  type: 'required',[39m
+[31m  errors: [ 'body.email is a required field' ],[39m
+[31m  inner: [],[39m
+[31m  params: {[39m
+[31m    value: undefined,[39m
+[31m    originalValue: undefined,[39m
+[31m    label: undefined,[39m
+[31m    path: 'body.email'[39m
+[31m  }[39m
+[31m}[39m
+2021-07-03T21:14:01.136Z [31merror[39m: [31mValidationError: body.email is a required field[39m
+[31m    at createError (/Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:54:21)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:72:107[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  value: {[39m
+[31m    body: { email: undefined, validateEmailToken: undefined },[39m
+[31m    validateEmailToken: '270879',[39m
+[31m    email: 'sayer.tindall@gmail.co'[39m
+[31m  },[39m
+[31m  path: 'body.email',[39m
+[31m  type: 'required',[39m
+[31m  errors: [ 'body.email is a required field' ],[39m
+[31m  inner: [],[39m
+[31m  params: {[39m
+[31m    value: undefined,[39m
+[31m    originalValue: undefined,[39m
+[31m    label: undefined,[39m
+[31m    path: 'body.email'[39m
+[31m  }[39m
+[31m}[39m
+2021-07-03T21:14:04.810Z [31merror[39m: [31mValidationError: body.email is a required field[39m
+[31m    at createError (/Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:54:21)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:72:107[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  value: {[39m
+[31m    body: { email: undefined, validateEmailToken: undefined },[39m
+[31m    validateEmailToken: '270879',[39m
+[31m    email: 'sayer.tindall@gmail.co'[39m
+[31m  },[39m
+[31m  path: 'body.email',[39m
+[31m  type: 'required',[39m
+[31m  errors: [ 'body.email is a required field' ],[39m
+[31m  inner: [],[39m
+[31m  params: {[39m
+[31m    value: undefined,[39m
+[31m    originalValue: undefined,[39m
+[31m    label: undefined,[39m
+[31m    path: 'body.email'[39m
+[31m  }[39m
+[31m}[39m
+2021-07-03T21:14:09.050Z [31merror[39m: [31mValidationError: body.email is a required field[39m
+[31m    at createError (/Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:54:21)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:72:107[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  value: {[39m
+[31m    body: { email: undefined, validateEmailToken: undefined },[39m
+[31m    validateEmailToken: '270879',[39m
+[31m    email: 'sayer.tindall@gmail.com'[39m
+[31m  },[39m
+[31m  path: 'body.email',[39m
+[31m  type: 'required',[39m
+[31m  errors: [ 'body.email is a required field' ],[39m
+[31m  inner: [],[39m
+[31m  params: {[39m
+[31m    value: undefined,[39m
+[31m    originalValue: undefined,[39m
+[31m    label: undefined,[39m
+[31m    path: 'body.email'[39m
+[31m  }[39m
+[31m}[39m
+2021-07-03T21:14:11.444Z [31merror[39m: [31mValidationError: body.email is a required field[39m
+[31m    at createError (/Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:54:21)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:72:107[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  value: {[39m
+[31m    body: { email: undefined, validateEmailToken: undefined },[39m
+[31m    validateEmailToken: '270879',[39m
+[31m    email: 'sayer.tindall@gmail.com'[39m
+[31m  },[39m
+[31m  path: 'body.email',[39m
+[31m  type: 'required',[39m
+[31m  errors: [ 'body.email is a required field' ],[39m
+[31m  inner: [],[39m
+[31m  params: {[39m
+[31m    value: undefined,[39m
+[31m    originalValue: undefined,[39m
+[31m    label: undefined,[39m
+[31m    path: 'body.email'[39m
+[31m  }[39m
+[31m}[39m
+2021-07-03T21:14:12.472Z [31merror[39m: [31mValidationError: body.email is a required field[39m
+[31m    at createError (/Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:54:21)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:72:107[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  value: {[39m
+[31m    body: { email: undefined, validateEmailToken: undefined },[39m
+[31m    validateEmailToken: '270879',[39m
+[31m    email: 'sayer.tindall@gmail.com'[39m
+[31m  },[39m
+[31m  path: 'body.email',[39m
+[31m  type: 'required',[39m
+[31m  errors: [ 'body.email is a required field' ],[39m
+[31m  inner: [],[39m
+[31m  params: {[39m
+[31m    value: undefined,[39m
+[31m    originalValue: undefined,[39m
+[31m    label: undefined,[39m
+[31m    path: 'body.email'[39m
+[31m  }[39m
+[31m}[39m
+2021-07-03T21:14:12.958Z [31merror[39m: [31mValidationError: body.email is a required field[39m
+[31m    at createError (/Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:54:21)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:72:107[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  value: {[39m
+[31m    body: { email: undefined, validateEmailToken: undefined },[39m
+[31m    validateEmailToken: '270879',[39m
+[31m    email: 'sayer.tindall@gmail.com'[39m
+[31m  },[39m
+[31m  path: 'body.email',[39m
+[31m  type: 'required',[39m
+[31m  errors: [ 'body.email is a required field' ],[39m
+[31m  inner: [],[39m
+[31m  params: {[39m
+[31m    value: undefined,[39m
+[31m    originalValue: undefined,[39m
+[31m    label: undefined,[39m
+[31m    path: 'body.email'[39m
+[31m  }[39m
+[31m}[39m
+2021-07-03T21:14:15.429Z [31merror[39m: [31mValidationError: body.email is a required field[39m
+[31m    at createError (/Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:54:21)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:72:107[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  value: {[39m
+[31m    body: { email: undefined, validateEmailToken: undefined },[39m
+[31m    validateEmailToken: '270879',[39m
+[31m    email: 'sayer.tindall@gmail.com'[39m
+[31m  },[39m
+[31m  path: 'body.email',[39m
+[31m  type: 'required',[39m
+[31m  errors: [ 'body.email is a required field' ],[39m
+[31m  inner: [],[39m
+[31m  params: {[39m
+[31m    value: undefined,[39m
+[31m    originalValue: undefined,[39m
+[31m    label: undefined,[39m
+[31m    path: 'body.email'[39m
+[31m  }[39m
+[31m}[39m
+2021-07-03T21:14:43.453Z [31merror[39m: [31mValidationError: body.email is a required field[39m
+[31m    at createError (/Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:54:21)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:72:107[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  value: {[39m
+[31m    body: { email: undefined, validateEmailToken: undefined },[39m
+[31m    validateEmailToken: '270879',[39m
+[31m    email: 'sayer.tindall@gmail.com'[39m
+[31m  },[39m
+[31m  path: 'body.email',[39m
+[31m  type: 'required',[39m
+[31m  errors: [ 'body.email is a required field' ],[39m
+[31m  inner: [],[39m
+[31m  params: {[39m
+[31m    value: undefined,[39m
+[31m    originalValue: undefined,[39m
+[31m    label: undefined,[39m
+[31m    path: 'body.email'[39m
+[31m  }[39m
+[31m}[39m
+2021-07-03T21:16:20.699Z [31merror[39m: [31mValidationError: email must be a valid email[39m
+[31m    at createError (/Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:54:21)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/node_modules/yup/lib/util/createValidation.js:72:107[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  value: { validateEmailToken: '270879', email: 'sayer.tindall@gmail.' },[39m
+[31m  path: 'email',[39m
+[31m  type: 'email',[39m
+[31m  errors: [ 'email must be a valid email' ],[39m
+[31m  inner: [],[39m
+[31m  params: {[39m
+[31m    value: 'sayer.tindall@gmail.',[39m
+[31m    originalValue: 'sayer.tindall@gmail.',[39m
+[31m    label: undefined,[39m
+[31m    path: 'email',[39m
+[31m    regex: /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i[39m
+[31m  }[39m
+[31m}[39m
+2021-07-06T01:32:25.347Z [31merror[39m: [31mclientAdress is a required field[39m
+2021-07-06T01:32:45.289Z [31merror[39m: [31mPrismaClientValidationError: [39m
+[31mInvalid `prisma.user.create()` invocation:[39m
+
+[31m{[39m
+[31m  data: {[39m
+[31m    userId: '91763525839474937108379',[39m
+[31m    email: 'sayer@resourcenetwork.co',[39m
+[31m    multiSigAddress: '0xF9fB5261AaE582c99481F578B96D5009e8d7F0CD',[39m
+[31m    validateEmailToken: '538389',[39m
+[31m+   clientAdress: String,[39m
+[31m?   id?: String,[39m
+[31m?   createdAt?: DateTime,[39m
+[31m?   updatedAt?: DateTime[39m
+[31m  }[39m
+[31m}[39m
+
+[31mArgument clientAdress for data.clientAdress is missing.[39m
+
+[31mNote: Lines with + are required, lines with ? are optional.[39m
+
+[31m    at Document.validate (/Users/sayertindall/Documents/resource/guardian/node_modules/@prisma/client/runtime/index.js:32626:19)[39m
+[31m    at NewPrismaClient._executeRequest (/Users/sayertindall/Documents/resource/guardian/node_modules/@prisma/client/runtime/index.js:34733:17)[39m
+[31m    at consumer (/Users/sayertindall/Documents/resource/guardian/node_modules/@prisma/client/runtime/index.js:34678:23)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/node_modules/@prisma/client/runtime/index.js:34680:47[39m
+[31m    at AsyncResource.runInAsyncScope (async_hooks.js:197:9)[39m
+[31m    at NewPrismaClient._request (/Users/sayertindall/Documents/resource/guardian/node_modules/@prisma/client/runtime/index.js:34680:25)[39m
+[31m    at Object.then (/Users/sayertindall/Documents/resource/guardian/node_modules/@prisma/client/runtime/index.js:34788:39)[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  clientVersion: '2.26.0'[39m
+[31m}[39m
+2021-07-06T01:55:58.351Z [31merror[39m: [31mError replacing owner: [39m
+2021-07-06T01:56:30.880Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-06T02:01:20.307Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-06T02:13:20.566Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-06T02:15:15.239Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-06T02:32:01.069Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-06T02:37:23.782Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-06T02:45:56.462Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-06T02:46:38.206Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="getOwners()", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-06T02:47:35.335Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="getOwners()", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-06T02:50:46.359Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
