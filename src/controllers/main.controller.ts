@@ -148,6 +148,20 @@ export const main: Controller = ({ prisma }) => {
         prisma,
       });
 
+      if (!txId) {
+        log.info("Error replacing multisig owner: " + email, {
+          id,
+          newClientAddress,
+          prisma,
+        });
+        res.status(500).send({
+          ERROR: true,
+          MESSAGE: "INTERNAL SERVER ERROR: COULD NOT REPLACE MULTISIG OWNER",
+        });
+        next();
+        return;
+      }
+
       next();
 
       return res.status(200).json({ user, tx: txId });

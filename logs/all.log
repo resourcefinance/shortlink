@@ -330,3 +330,5 @@
 2021-07-06T02:46:38.206Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="getOwners()", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
 2021-07-06T02:47:35.335Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="getOwners()", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
 2021-07-06T02:50:46.359Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-06T17:55:11.991Z [34minfo[39m: [34mError creating user with email: sayer@resourcenetwork.co[39m
+2021-07-06T18:38:59.266Z [34minfo[39m: [34mError creating user with email: sayer@resourcenetwork.co[39m

@@ -139,6 +139,19 @@ const main = ({ prisma }) => {
                 newClientAddress,
                 prisma,
             });
+            if (!txId) {
+                services_1.log.info("Error replacing multisig owner: " + email, {
+                    id,
+                    newClientAddress,
+                    prisma,
+                });
+                res.status(500).send({
+                    ERROR: true,
+                    MESSAGE: "INTERNAL SERVER ERROR: COULD NOT REPLACE MULTISIG OWNER",
+                });
+                next();
+                return;
+            }
             next();
             return res.status(200).json({ user, tx: txId });
         }

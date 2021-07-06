@@ -33,8 +33,10 @@ export async function replaceMultiSigOwner({
     // instantiate Guardian Wallet
     const guardianWallet = await getGuardianWallet();
     console.log("wallet.ts -- guardianWallet:", guardianWallet);
+
     // fetchuser with id
     const user = await prisma.user.findUnique({ where: { id } });
+
     // MultiSigWallet
     if (!user) throw new Error("User does not exist");
 
@@ -46,6 +48,7 @@ export async function replaceMultiSigOwner({
       guardianWallet
     ) as MultiSigWallet;
     console.log("wallet.ts -- multiSigWallet:", multiSigWallet);
+
     // connect GuardianWallet and replace old clientAddress with new generated client address
     const data = (
       await multiSigWallet
@@ -55,6 +58,7 @@ export async function replaceMultiSigOwner({
 
     console.log("wallet.ts -- data:", data);
     if (!data) throw new Error("Cannot populate replaceOwner tx with owner A");
+
     // get multiSig owner tx nonce
     console.log("wallet.ts -- guardianWallet.address:", guardianWallet.address);
     const guardianNonce = await multiSigWallet.nonces(guardianWallet.address);
@@ -73,11 +77,13 @@ export async function replaceMultiSigOwner({
         )
     );
     console.log("wallet.ts -- guardianHashToSign:", guardianHashToSign);
+
     // generate ownerA signature
     const guardianSig = ethers.utils.joinSignature(
       await guardianWallet.signMessage(guardianHashToSign)
     );
     console.log("wallet.ts -- guardianSig:", guardianSig);
+    
     // generate new transaction
     const submissionResult = await (
       await multiSigWallet.submitTransactionByRelay(
@@ -94,7 +100,6 @@ export async function replaceMultiSigOwner({
     const transactionId = submissionResult.events?.find(
       (e: any) => e.eventSignature == "Submission(uint256)"
     )?.args?.transactionId;
-
     console.log("wallet.ts -- transactionId:", transactionId);
 
     if (!transactionId)

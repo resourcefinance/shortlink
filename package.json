@@ -16,7 +16,8 @@
     "db:save": "yarn prisma migrate dev --create-only --preview-feature",
     "db:migrate": "yarn prisma migrate dev --preview-feature",
     "db:migrate:prod": "yarn prisma migrate deploy --preview-feature",
-    "prisma:studio": "yarn prisma studio"
+    "prisma:studio": "yarn prisma studio",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -40,17 +41,22 @@
   "dependencies": {
     "@celo-tools/celo-ethers-wrapper": "^0.0.5",
     "@prisma/client": "^2.26.0",
+    "@types/jest": "^26.0.23",
     "@types/safe-json-stringify": "^1.1.2",
     "bcrypt": "^5.0.1",
+    "chai": "^4.3.4",
     "customerio-node": "^2.1.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-yup": "^1.0.0",
+    "jest": "^27.0.6",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^9.0.2",
     "morgan": "^1.10.0",
     "otplib": "^12.0.1",
     "safe-json-stringify": "^1.2.0",
     "sentry": "^0.1.2",
+    "ts-jest": "^27.0.3",
     "winston": "^3.3.3",
     "yup": "^0.32.9"
   }
