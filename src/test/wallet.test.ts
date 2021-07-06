@@ -3,6 +3,7 @@ import { MultiSigWallet } from "../types/MultiSigWallet";
 import { MultiSigWallet__factory } from "../types/factories/MultiSigWallet__factory";
 
 import { getGuardianWallet } from "../services/wallet";
+import { tryWithGas } from "../utils";
 
 describe("Guardian Wallet", function () {
   let multiSig;
@@ -58,20 +59,27 @@ describe("Guardian Wallet", function () {
       await guardian.signMessage(guardianHashToSign)
     );
 
-    const submissionResult = await (
-      await multiSig.submitTransactionByRelay(
-        multiSig.address,
-        0,
-        data,
-        guardianSig,
-        guardian.address
-      )
-    ).wait();
+    const gas = await multiSig.estimateGas.submitTransactionByRelay(
+      multiSig.address,
+      0,
+      data,
+      guardianSig,
+      guardian.address
+    );
 
-    const transactionId = submissionResult.events?.find(
-      (e: any) => e.eventSignature == "Submission(uint256)"
-    )?.args?.transactionId;
+    const func = multiSig.submitTransactionByRelay;
 
-    expect(transactionId).toEqual(0);
+    const args = [multiSig.address, 0, data, guardianSig, guardian.address];
+
+    const confirmTxResponse = await (await tryWithGas(func, args, gas)).wait();
+
+    const transactionId = ethers.utils.formatUnits(
+      confirmTxResponse.events?.find(
+        (e: any) => e.eventSignature == "Submission(uint256)"
+      )?.args?.transactionId,
+      "wei"
+    );
+
+    expect(transactionId).toEqual("0");
   });
 });
