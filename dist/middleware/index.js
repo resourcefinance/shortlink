@@ -23,7 +23,7 @@ function unless(middleware, ...paths) {
     };
 }
 exports.unless = unless;
-exports.auth = unless(authenticate, "/api/", "/api/token", "/api/register");
+exports.auth = unless(authenticate, "/api/", "/api/token", "/api/register", "/api/recover");
 const validate = (schema) => async (req, res, next) => {
     const body = req.body;
     try {

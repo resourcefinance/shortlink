@@ -1,22 +1,36 @@
+import { PrismaClient } from "@prisma/client";
 import { ethers } from "ethers";
-import { MultiSigWallet } from "../types/MultiSigWallet";
-import { MultiSigWallet__factory } from "../types/factories/MultiSigWallet__factory";
+import { customAlphabet } from "nanoid";
+import request from "supertest";
 
+import { main as controller } from "../controllers/main.controller";
+import { createServer } from "../server";
 import { getGuardianWallet } from "../services/wallet";
-import { tryWithGas } from "../utils";
+import { MultiSigWallet__factory } from "../types/factories/MultiSigWallet__factory";
+import { MultiSigWallet } from "../types/MultiSigWallet";
+import { tryWithGas } from "../services/utils";
 
-describe("Guardian Wallet", function () {
-  let multiSig;
-  let guardian;
-  let addresses;
+const prisma = new PrismaClient();
+const nanoid = customAlphabet("1234567890abcdef", 10);
+
+describe("Guardian Test Suite", function () {
+  let multiSig, guardian, addresses, data, app;
+  const newClient = "0x7a7cE72c9c0410113e7C2608c584Ea05e683F4f5";
+  const oldClient = "0xAbeB77559A15F520A9e79982ACd6Cf8951b94949";
+  const email = nanoid() + "@resourcenetwork.co";
 
   beforeAll(async function () {
+    //   init express app
+    app = createServer(
+      {
+        prisma,
+      },
+      controller
+    );
+
     //   deploy multisig
     guardian = await getGuardianWallet();
-    addresses = [
-      guardian.address,
-      "0xAbeB77559A15F520A9e79982ACd6Cf8951b94949",
-    ];
+    addresses = [guardian.address, oldClient];
 
     const walletFactory = new MultiSigWallet__factory(guardian);
     const deployResult = await (
@@ -29,57 +43,67 @@ describe("Guardian Wallet", function () {
       MultiSigWallet__factory.createInterface(),
       guardian
     ) as MultiSigWallet;
+
+    data = {
+      userId: nanoid(),
+      multiSigAddress: multiSig.address,
+      clientAddress: oldClient,
+      email: email,
+    };
   });
 
-  it("Successfully creates replaceMultiSigOwner tx", async function () {
-    const newClient = "0x820177b52a29e16201de057578575eaba40e68de";
-    const data = (
-      await multiSig
-        .connect(guardian)
-        .populateTransaction.replaceOwner(addresses[1], newClient)
-    ).data;
+  it("should respond with status of 'OK'", async () => {
+    return await request(app)
+      .get("/api/")
+      .then((response) => {
+        const { text } = response;
+        expect(text).toStrictEqual("OK");
+      })
+      .catch((err) => console.log(err));
+  });
 
-    if (!data)
-      throw new Error(
-        "Cannot populate replaceOwner tx with new client address"
-      );
+  it("should respond with a newly created user", async () => {
+    return await request(app)
+      .post("/api/register")
+      .set("Content-Type", "application/json")
+      .send(data)
+      .then((response) => {
+        const {
+          body: { user },
+        } = response;
+        expect(user).toHaveProperty("userId");
+        expect(user).toHaveProperty("email");
+        expect(user).toHaveProperty("clientAddress");
+        expect(user).toHaveProperty("multiSigAddress");
+      })
+      .catch((err) => console.log(err));
+  });
 
-    // get multiSig owner tx nonce
-    const guardianNonce = await multiSig.nonces(guardian.address);
+  it("should call replaceMultiSigOwner successfully", async () => {
+    const user = await prisma.user.findUnique({ where: { email } });
+    console.log("wallet.test.ts -- user:", user);
+    expect(user).toBeTruthy();
 
-    // generate prepare submit transaction hash for signature by ownerA
-    const guardianHashToSign = ethers.utils.arrayify(
-      await multiSig
-        .connect(guardian)
-        .prepareSubmitTransaction(multiSig.address, 0, data, guardianNonce)
-    );
+    const toReplace = {
+      validateEmailToken: user?.validateEmailToken,
+      newClientAddress: newClient,
+      email,
+    };
 
-    // generate ownerA signature
-    const guardianSig = ethers.utils.joinSignature(
-      await guardian.signMessage(guardianHashToSign)
-    );
+    console.log("wallet.test.ts -- toReplace:", toReplace);
 
-    const gas = await multiSig.estimateGas.submitTransactionByRelay(
-      multiSig.address,
-      0,
-      data,
-      guardianSig,
-      guardian.address
-    );
+    return await request(app)
+      .post("/api/recover")
+      .set("Content-Type", "application/json")
+      .send(toReplace)
+      .then((response) => {
+        const {
+          body: { user, tx },
+        } = response;
 
-    const func = multiSig.submitTransactionByRelay;
-
-    const args = [multiSig.address, 0, data, guardianSig, guardian.address];
-
-    const confirmTxResponse = await (await tryWithGas(func, args, gas)).wait();
-
-    const transactionId = ethers.utils.formatUnits(
-      confirmTxResponse.events?.find(
-        (e: any) => e.eventSignature == "Submission(uint256)"
-      )?.args?.transactionId,
-      "wei"
-    );
-
-    expect(transactionId).toEqual("0");
+        console.log("wallet.test.ts -- user:", user);
+        console.log("wallet.test.ts -- tx:", tx);
+      })
+      .catch((err) => console.log(err));
   });
 });

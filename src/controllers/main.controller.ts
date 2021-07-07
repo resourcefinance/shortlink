@@ -29,7 +29,7 @@ const recoverSchema = yup
 export const main: Controller = ({ prisma }) => {
   const router = Router();
 
-  router.get("/token", async (req, res, next) => {
+  router.post("/token", async (req, res, next) => {
     const { email } = req.body;
 
     const user: User | null = await prisma.user.findUnique({
@@ -53,8 +53,7 @@ export const main: Controller = ({ prisma }) => {
   });
 
   router.get("/", (_, res, next) => {
-    res.status(200).send("ok");
-
+    res.status(200).send("OK");
     next();
   });
 
@@ -112,13 +111,13 @@ export const main: Controller = ({ prisma }) => {
     const { validateEmailToken, email, newClientAddress } = req.body;
 
     try {
-      const user: User | null = await prisma.user.findUnique({
+      const userToUpdate: User | null = await prisma.user.findUnique({
         where: {
           email,
         },
       });
 
-      if (!user) {
+      if (!userToUpdate) {
         log.info("Error creating user with email: " + email);
         res.status(401).send({
           ERROR: true,
@@ -128,10 +127,10 @@ export const main: Controller = ({ prisma }) => {
         next();
         return;
       }
-      if (validateEmailToken !== user.validateEmailToken) {
+      if (validateEmailToken !== userToUpdate.validateEmailToken) {
         log.info(
           ("Invalid validateEmailToken for token: " +
-            user.validateEmailToken) as string
+            userToUpdate.validateEmailToken) as string
         );
         next();
         return res.status(401).send({
@@ -140,15 +139,15 @@ export const main: Controller = ({ prisma }) => {
         });
       }
 
-      const { id } = user;
+      const { id } = userToUpdate;
 
-      const txId = await replaceMultiSigOwner({
+      const { transactionId } = await replaceMultiSigOwner({
         id,
         newClientAddress,
         prisma,
       });
 
-      if (!txId) {
+      if (!transactionId) {
         log.info("Error replacing multisig owner: " + email, {
           id,
           newClientAddress,
@@ -164,7 +163,7 @@ export const main: Controller = ({ prisma }) => {
 
       next();
 
-      return res.status(200).json({ user, tx: txId });
+      return res.status(200).json({ user: userToUpdate, tx: transactionId });
     } catch (e) {
       log.error(e);
       return res.status(500).send({

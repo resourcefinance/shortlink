@@ -44,7 +44,7 @@ const recoverSchema = yup
     .required();
 const main = ({ prisma }) => {
     const router = express_1.Router();
-    router.get("/token", async (req, res, next) => {
+    router.post("/token", async (req, res, next) => {
         const { email } = req.body;
         const user = await prisma.user.findUnique({
             where: {
@@ -62,7 +62,7 @@ const main = ({ prisma }) => {
         next();
     });
     router.get("/", (_, res, next) => {
-        res.status(200).send("ok");
+        res.status(200).send("OK");
         next();
     });
     router.post("/register", middleware_1.validate(registerSchema), async (req, res, next) => {
@@ -110,12 +110,12 @@ const main = ({ prisma }) => {
     router.post("/recover", middleware_1.validate(recoverSchema), async (req, res, next) => {
         const { validateEmailToken, email, newClientAddress } = req.body;
         try {
-            const user = await prisma.user.findUnique({
+            const userToUpdate = await prisma.user.findUnique({
                 where: {
                     email,
                 },
             });
-            if (!user) {
+            if (!userToUpdate) {
                 services_1.log.info("Error creating user with email: " + email);
                 res.status(401).send({
                     ERROR: true,
@@ -124,22 +124,22 @@ const main = ({ prisma }) => {
                 next();
                 return;
             }
-            if (validateEmailToken !== user.validateEmailToken) {
+            if (validateEmailToken !== userToUpdate.validateEmailToken) {
                 services_1.log.info(("Invalid validateEmailToken for token: " +
-                    user.validateEmailToken));
+                    userToUpdate.validateEmailToken));
                 next();
                 return res.status(401).send({
                     ERROR: true,
                     MESSAGE: "INTERNAL SERVER ERROR: INVALID TOKEN",
                 });
             }
-            const { id } = user;
-            const txId = await services_1.replaceMultiSigOwner({
+            const { id } = userToUpdate;
+            const { transactionId } = await services_1.replaceMultiSigOwner({
                 id,
                 newClientAddress,
                 prisma,
             });
-            if (!txId) {
+            if (!transactionId) {
                 services_1.log.info("Error replacing multisig owner: " + email, {
                     id,
                     newClientAddress,
@@ -153,7 +153,7 @@ const main = ({ prisma }) => {
                 return;
             }
             next();
-            return res.status(200).json({ user, tx: txId });
+            return res.status(200).json({ user: userToUpdate, tx: transactionId });
         }
         catch (e) {
             services_1.log.error(e);

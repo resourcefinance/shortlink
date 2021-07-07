@@ -6,6 +6,8 @@ import config from "../config";
 import { MultiSigWallet } from "../types/MultiSigWallet";
 import { MultiSigWallet__factory } from "../types/factories/MultiSigWallet__factory";
 import { log } from "./logger";
+import { tryWithGas } from "./utils";
+import { retry } from "ts-retry";
 
 export const getCeloProvider = async () => {
   const provider = new CeloProvider(config.BLOCKCHAIN_NETWORK);
@@ -32,7 +34,6 @@ export async function replaceMultiSigOwner({
   try {
     // instantiate Guardian Wallet
     const guardianWallet = await getGuardianWallet();
-    console.log("wallet.ts -- guardianWallet:", guardianWallet);
 
     // fetchuser with id
     const user = await prisma.user.findUnique({ where: { id } });
@@ -47,7 +48,6 @@ export async function replaceMultiSigOwner({
       MultiSigWallet__factory.createInterface(),
       guardianWallet
     ) as MultiSigWallet;
-    console.log("wallet.ts -- multiSigWallet:", multiSigWallet);
 
     // connect GuardianWallet and replace old clientAddress with new generated client address
     const data = (
@@ -56,14 +56,10 @@ export async function replaceMultiSigOwner({
         .populateTransaction.replaceOwner(clientAddress, newClientAddress)
     ).data;
 
-    console.log("wallet.ts -- data:", data);
     if (!data) throw new Error("Cannot populate replaceOwner tx with owner A");
 
     // get multiSig owner tx nonce
-    console.log("wallet.ts -- guardianWallet.address:", guardianWallet.address);
     const guardianNonce = await multiSigWallet.nonces(guardianWallet.address);
-
-    console.log("wallet.ts -- guardianNonce:", guardianNonce);
 
     // generate prepare submit transaction hash for signature by ownerA
     const guardianHashToSign = ethers.utils.arrayify(
@@ -76,30 +72,44 @@ export async function replaceMultiSigOwner({
           guardianNonce
         )
     );
-    console.log("wallet.ts -- guardianHashToSign:", guardianHashToSign);
 
     // generate ownerA signature
     const guardianSig = ethers.utils.joinSignature(
       await guardianWallet.signMessage(guardianHashToSign)
     );
-    console.log("wallet.ts -- guardianSig:", guardianSig);
-    
-    // generate new transaction
-    const submissionResult = await (
-      await multiSigWallet.submitTransactionByRelay(
-        multiSigWallet.address,
-        0,
-        data,
-        guardianSig,
-        guardianWallet.address
-      )
-    ).wait();
-    console.log("wallet.ts -- submissionResult:", submissionResult);
 
-    // fetch transactionId from submissionResult events
-    const transactionId = submissionResult.events?.find(
-      (e: any) => e.eventSignature == "Submission(uint256)"
-    )?.args?.transactionId;
+    const gas = await multiSigWallet.estimateGas.submitTransactionByRelay(
+      multiSigWallet.address,
+      0,
+      data,
+      guardianSig,
+      guardianWallet.address
+    );
+
+    const func = multiSigWallet.submitTransactionByRelay;
+
+    const args = [
+      multiSigWallet.address,
+      0,
+      data,
+      guardianSig,
+      guardianWallet.address,
+    ];
+
+    const submitTxResponse = await retry(
+      async () => {
+        return await (await tryWithGas(func, args, gas)).wait();
+      },
+      { delay: 100, maxTry: 5 }
+    );
+
+    const transactionId = ethers.utils.formatUnits(
+      submitTxResponse.events?.find(
+        (e: any) => e.eventSignature == "Submission(uint256)"
+      )?.args?.transactionId,
+      "wei"
+    );
+
     console.log("wallet.ts -- transactionId:", transactionId);
 
     if (!transactionId)

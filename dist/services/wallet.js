@@ -9,6 +9,8 @@ const ethers_1 = require("ethers");
 const config_1 = __importDefault(require("../config"));
 const MultiSigWallet__factory_1 = require("../types/factories/MultiSigWallet__factory");
 const logger_1 = require("./logger");
+const utils_1 = require("./utils");
+const ts_retry_1 = require("ts-retry");
 const getCeloProvider = async () => {
     const provider = new celo_ethers_wrapper_1.CeloProvider(config_1.default.BLOCKCHAIN_NETWORK);
     await provider.ready;
@@ -27,7 +29,6 @@ async function replaceMultiSigOwner({ id, newClientAddress, prisma, }) {
     try {
         // instantiate Guardian Wallet
         const guardianWallet = await exports.getGuardianWallet();
-        console.log("wallet.ts -- guardianWallet:", guardianWallet);
         // fetchuser with id
         const user = await prisma.user.findUnique({ where: { id } });
         // MultiSigWallet
@@ -35,31 +36,33 @@ async function replaceMultiSigOwner({ id, newClientAddress, prisma, }) {
             throw new Error("User does not exist");
         const { multiSigAddress, userId, clientAddress } = user;
         const multiSigWallet = new ethers_1.ethers.Contract(multiSigAddress, MultiSigWallet__factory_1.MultiSigWallet__factory.createInterface(), guardianWallet);
-        console.log("wallet.ts -- multiSigWallet:", multiSigWallet);
         // connect GuardianWallet and replace old clientAddress with new generated client address
         const data = (await multiSigWallet
             .connect(guardianWallet)
             .populateTransaction.replaceOwner(clientAddress, newClientAddress)).data;
-        console.log("wallet.ts -- data:", data);
         if (!data)
             throw new Error("Cannot populate replaceOwner tx with owner A");
         // get multiSig owner tx nonce
-        console.log("wallet.ts -- guardianWallet.address:", guardianWallet.address);
         const guardianNonce = await multiSigWallet.nonces(guardianWallet.address);
-        console.log("wallet.ts -- guardianNonce:", guardianNonce);
         // generate prepare submit transaction hash for signature by ownerA
         const guardianHashToSign = ethers_1.ethers.utils.arrayify(await multiSigWallet
             .connect(guardianWallet)
             .prepareSubmitTransaction(multiSigWallet.address, 0, data, guardianNonce));
-        console.log("wallet.ts -- guardianHashToSign:", guardianHashToSign);
         // generate ownerA signature
         const guardianSig = ethers_1.ethers.utils.joinSignature(await guardianWallet.signMessage(guardianHashToSign));
-        console.log("wallet.ts -- guardianSig:", guardianSig);
-        // generate new transaction
-        const submissionResult = await (await multiSigWallet.submitTransactionByRelay(multiSigWallet.address, 0, data, guardianSig, guardianWallet.address)).wait();
-        console.log("wallet.ts -- submissionResult:", submissionResult);
-        // fetch transactionId from submissionResult events
-        const transactionId = (_c = (_b = (_a = submissionResult.events) === null || _a === void 0 ? void 0 : _a.find((e) => e.eventSignature == "Submission(uint256)")) === null || _b === void 0 ? void 0 : _b.args) === null || _c === void 0 ? void 0 : _c.transactionId;
+        const gas = await multiSigWallet.estimateGas.submitTransactionByRelay(multiSigWallet.address, 0, data, guardianSig, guardianWallet.address);
+        const func = multiSigWallet.submitTransactionByRelay;
+        const args = [
+            multiSigWallet.address,
+            0,
+            data,
+            guardianSig,
+            guardianWallet.address,
+        ];
+        const submitTxResponse = await ts_retry_1.retry(async () => {
+            return await (await utils_1.tryWithGas(func, args, gas)).wait();
+        }, { delay: 100, maxTry: 5 });
+        const transactionId = ethers_1.ethers.utils.formatUnits((_c = (_b = (_a = submitTxResponse.events) === null || _a === void 0 ? void 0 : _a.find((e) => e.eventSignature == "Submission(uint256)")) === null || _b === void 0 ? void 0 : _b.args) === null || _c === void 0 ? void 0 : _c.transactionId, "wei");
         console.log("wallet.ts -- transactionId:", transactionId);
         if (!transactionId)
             throw new Error("TransactionID invalid, try again bitch");

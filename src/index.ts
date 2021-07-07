@@ -5,12 +5,15 @@ import config from "./config";
 
 const prisma = new PrismaClient();
 
-startServer({
-  app: createServer(
-    {
-      prisma,
-    },
-    controller
-  ),
-  port: config.PORT || 80,
-}).catch((e) => console.log(e));
+export const start = () =>
+  startServer({
+    app: createServer(
+      {
+        prisma,
+      },
+      controller
+    ),
+    port: config.PORT || 80,
+  }).catch((e) => console.log(e));
+
+start();
