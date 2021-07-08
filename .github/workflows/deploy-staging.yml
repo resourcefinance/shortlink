@@ -44,6 +44,7 @@ jobs:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           ssh -o StrictHostKeyChecking=no $username@$host << EOF
+            sudo -i
             docker run --rm banst/awscli ecr --region us-east-2 get-login-password | docker login --username AWS --password-stdin 446481105531.dkr.ecr.us-east-2.amazonaws.com
             docker pull "446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest"
             docker ps -f name=staging-guardian -q | xargs --no-run-if-empty docker rm -f
