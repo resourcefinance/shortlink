@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  postgresql:
+    image: docker.io/bitnami/postgresql:13
+    ports:
+      - "5432:5432"
+    volumes:
+      - "postgresql_data:/bitnami/postgresql"
+    environment:
+      - "ALLOW_EMPTY_PASSWORD=yes"
+
+  guardian:
+    container_name: guardian
+    build: ./
+    ports:
+      - "80:80"
+    env_file:
+      - ./.env
+    restart:
+      - always
+
+volumes:
+  postgresql_data:
+    driver: local

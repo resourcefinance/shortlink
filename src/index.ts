@@ -8,6 +8,7 @@ import { main as controller } from "./controllers/main.controller";
 import { createServer, startServer } from "./server";
 import { PrismaClient } from ".prisma/client";
 import { log } from "./services";
+import { isProd } from "./config";
 
 Sentry.init({
   dsn: config.SENTRY_DSN,
@@ -36,7 +37,7 @@ export const start = () =>
       },
       controller
     ),
-    port: config.PORT || 80,
+    port: isProd() ? 80 : config.PORT,
   }).catch((e) => {
     transaction.finish();
     log.info("Internal Server Error: ", e.message);

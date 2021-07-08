@@ -10,6 +10,8 @@
     "start:watch": "nodemon dist/index.js",
     "build": "tsc",
     "build:watch": "tsc -w",
+    "prebuild": "run-s clean generate:*",
+    "clean": "yarn rimraf dist",
     "generate": "yarn prisma generate",
     "db:seed": "yarn prisma db seed --preview-feature",
     "db:push": "yarn prisma db push --preview-feature",
@@ -17,6 +19,7 @@
     "db:migrate": "yarn prisma migrate dev --preview-feature",
     "db:migrate:prod": "yarn prisma migrate deploy --preview-feature",
     "prisma:studio": "yarn prisma studio",
+    "docker:build": "yarn run build && docker build -t guardian .",
     "test": "jest --detectOpenHandles --force-exit"
   },
   "keywords": [],
@@ -32,7 +35,6 @@
     "@types/mocha": "^8.2.2",
     "@types/morgan": "^1.9.2",
     "@types/node": "^15.0.3",
-    "axios": "^0.21.1",
     "ethers": "^5.2.0",
     "husky": "^6.0.0",
     "prisma": "^2.26.0",
@@ -42,6 +44,7 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "@celo-tools/celo-ethers-wrapper": "^0.0.5",
     "@prisma/client": "^2.26.0",
     "@sentry/integrations": "^6.8.0",
