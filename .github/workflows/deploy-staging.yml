@@ -1,0 +1,53 @@
+name: Deploy Staging
+on:
+  push:
+    branches:
+      - staging
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [15.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Packages
+        run: SKIP_POSTINSTALL=1 yarn
+      - name: Build app
+        run: CI=false yarn build
+      - name: Build and publish docker image
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          DOCKER_IMAGE: staging-guardian
+        run: |
+          aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 446481105531.dkr.ecr.us-east-2.amazonaws.com
+          docker build -t $DOCKER_IMAGE:latest .
+          docker tag $DOCKER_IMAGE:latest 446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest
+          docker push 446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest
+      - name: Setup SSH Key
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ secrets.DEPLOY_SSH_KEY }}"
+      - name: Deploy to server
+        env:
+          DOCKER_IMAGE: staging-guardian
+          host: 18.116.235.132
+          username: ubuntu
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          ssh -o StrictHostKeyChecking=no $username@$host << EOF
+            docker run --rm banst/awscli ecr --region us-east-2 get-login-password | docker login --username AWS --password-stdin 446481105531.dkr.ecr.us-east-2.amazonaws.com
+            docker pull "446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest"
+            docker ps -f name=staging-guardian -q | xargs --no-run-if-empty docker rm -f
+            docker run --name staging-guardian --env-file=/home/ubuntu/.env -p 80:80 -d --restart always "446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest"
+            docker exec staging-guardian yarn db:migrate:prod
+            docker system prune -f
+          EOF
