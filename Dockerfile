@@ -4,7 +4,7 @@ WORKDIR /app
 
 RUN apk add git
 
-COPY package.json yarn.lock ./prisma/schema.prisma ./
+COPY package.json yarn.lock ./prisma/schema.prisma ./prisma/migrations ./
 
 RUN SKIP_POSTINSTALL=1 yarn install --production --pure-lockfile
 
