@@ -3037,16 +3037,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-yup@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "express-yup@npm:1.0.0"
-  peerDependencies:
-    express: ^4.17.1
-    yup: ^0.29.3
-  checksum: cd228ff4171024f9a556d5407866312ace7086bced28ead358949b6c62ba49a5a3460719ca46ecf2977210aefb13c1a6370f1eccb6b918198ec26cc2e2663fd5
-  languageName: node
-  linkType: hard
-
 "express@npm:^4.17.1":
   version: 4.17.1
   resolution: "express@npm:4.17.1"
@@ -3465,7 +3455,6 @@ __metadata:
     dotenv: ^10.0.0
     ethers: ^5.2.0
     express: ^4.17.1
-    express-yup: ^1.0.0
     husky: ^6.0.0
     jest: ^27.0.6
     jsonwebtoken: ^8.5.1

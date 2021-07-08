@@ -12,4 +12,4 @@ COPY dist/ ./dist
 
 EXPOSE 80
 
-CMD [ "yarn",  "start" ]
+CMD [ "yarn", "prod:start" ]

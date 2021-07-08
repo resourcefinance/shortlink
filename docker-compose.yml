@@ -2,20 +2,17 @@ version: "3.7"
 
 services:
   postgresql:
+    container_name: guardian-pg
     image: postgres
     ports:
       - "127.0.0.1:5432:5432"
     environment:
-      -  POSTGRES_PASSWORD=root
-      -  POSTGRES_USER=root
-    volumes:
-      - pg_conf:/etc/postgresql
-      - pg_log:/var/log/postgresql
-      - pg_data:/var/lib/postgresql/data
-      - ./docker/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - "POSTGRES_PASSWORD=resource"
+      - "POSTGRES_USER=resource"
 
-    environment:
-      - "ALLOW_EMPTY_PASSWORD=yes"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - init.sql:/docker-entrypoint-initdb.d/init.sql
 
   guardian:
     container_name: guardian
@@ -25,8 +22,8 @@ services:
     env_file:
       - ./.env
     restart: "always"
+    depends_on:
+      - postgresql
 
 volumes:
   pg_data:
-  pg_conf:
-  pg_log:
