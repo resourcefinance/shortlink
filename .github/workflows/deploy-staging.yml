@@ -48,7 +48,7 @@ jobs:
             docker run --rm banst/awscli ecr --region us-east-2 get-login-password | docker login --username AWS --password-stdin 446481105531.dkr.ecr.us-east-2.amazonaws.com
             docker pull "446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest"
             docker ps -f name=staging-guardian -q | xargs --no-run-if-empty docker rm -f
-            docker run --name staging-guardian --env-file=/home/ubuntu/.env -p 80:80 -d --restart always "446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest"
+            docker run --name staging-guardian --env-file=/home/ubuntu/.env -p 127.0.0.1:80:80 -d --restart always "446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest"
             docker exec staging-guardian yarn db:migrate:prod
             docker system prune -f
           EOF
