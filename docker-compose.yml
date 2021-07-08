@@ -5,13 +5,12 @@ services:
     container_name: guardian-pg
     image: postgres
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     environment:
       - "POSTGRES_PASSWORD=resource"
       - "POSTGRES_USER=resource"
     volumes:
       - pg_data:/var/lib/postgresql/data
-    networks:
-      - guardian
+
 volumes:
   pg_data:
