@@ -44,6 +44,9 @@
   "dependencies": {
     "@celo-tools/celo-ethers-wrapper": "^0.0.5",
     "@prisma/client": "^2.26.0",
+    "@sentry/integrations": "^6.8.0",
+    "@sentry/node": "^6.8.0",
+    "@sentry/tracing": "^6.8.0",
     "@types/jest": "^26.0.23",
     "@types/safe-json-stringify": "^1.1.2",
     "bcrypt": "^5.0.1",
@@ -60,7 +63,6 @@
     "nanoid": "^3.1.23",
     "otplib": "^12.0.1",
     "safe-json-stringify": "^1.2.0",
-    "sentry": "^0.1.2",
     "ts-jest": "^27.0.3",
     "ts-retry": "^2.3.3",
     "winston": "^3.3.3",

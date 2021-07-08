@@ -4,6 +4,7 @@ import * as yup from "yup";
 
 import { validate } from "../middleware";
 import { generate, log, replaceMultiSigOwner } from "../services";
+import { sendTxEmail } from "../services/customerio";
 import { Controller } from "./types";
 import { createToken } from "./utils/auth.utils";
 
@@ -26,8 +27,20 @@ const recoverSchema = yup
   })
   .required();
 
+const resetSchema = yup
+  .object()
+  .shape({
+    email: yup.string().required().email(),
+  })
+  .required();
+
 export const main: Controller = ({ prisma }) => {
   const router = Router();
+
+  router.get("/", (_, res, next) => {
+    res.status(200).send("OK");
+    next();
+  });
 
   router.post("/token", async (req, res, next) => {
     const { email } = req.body;
@@ -49,11 +62,6 @@ export const main: Controller = ({ prisma }) => {
       token,
     });
 
-    next();
-  });
-
-  router.get("/", (_, res, next) => {
-    res.status(200).send("OK");
     next();
   });
 
@@ -93,13 +101,53 @@ export const main: Controller = ({ prisma }) => {
         return;
       }
 
+      next();
       return res.status(200).json({
         user,
       });
-
-      next();
     } catch (e) {
       log.error(e);
+      return res.status(500).send({
+        ERROR: true,
+        MESSAGE: "INTERNAL SERVER ERROR: " + e,
+      });
+    }
+  });
+
+  router.post("/reset", validate(resetSchema), async (req, res, next) => {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(401).send({
+        ERROR: true,
+        MESSAGE: "INTERNAL SERVER ERROR: EMAIL PARAM REQUIRED",
+      });
+      next();
+    }
+
+    try {
+      const user = await prisma.user.findUnique({ where: { email } });
+
+      if (!user) {
+        next();
+        return res.status(401).send({
+          ERROR: true,
+          MESSAGE:
+            "INTERNAL SERVER ERROR: COULD NOT FIND USER WITH EMAIL: " + email,
+        });
+      }
+
+      const payload = {
+        otp: user.validateEmailToken,
+        to: user.email,
+        id: user.userId,
+      };
+
+      const resp = await sendTxEmail(payload as any);
+      console.log("email sent: ", resp);
+    } catch (e) {
+      log.error(e);
+      next();
       return res.status(500).send({
         ERROR: true,
         MESSAGE: "INTERNAL SERVER ERROR: " + e,
@@ -172,6 +220,7 @@ export const main: Controller = ({ prisma }) => {
       });
     }
   });
+
   return {
     path: "/api",
     router,

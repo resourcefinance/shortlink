@@ -14,6 +14,6 @@ model User {
   userId             String   @unique
   email              String   @unique
   multiSigAddress    String
-  clientAddress       String
+  clientAddress      String
   validateEmailToken String?
 }

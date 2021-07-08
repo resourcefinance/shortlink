@@ -336,3 +336,348 @@
 2021-07-07T01:02:24.601Z [31merror[39m: [31mError replacing owner: Error: cannot estimate gas; transaction may fail or may require manual gas limit (error={"reason":"processing response error","code":"SERVER_ERROR","body":"{\"jsonrpc\":\"2.0\",\"id\":48,\"error\":{\"code\":3,\"message\":\"execution reverted: ECDSA: invalid signature\",\"data\":\"0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001845434453413a20696e76616c6964207369676e61747572650000000000000000\"}}\n","error":{"code":3,"data":"0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001845434453413a20696e76616c6964207369676e61747572650000000000000000"},"requestBody":"{\"method\":\"eth_estimateGas\",\"params\":[{\"from\":\"0x2aee4fb6fd7dc927c3a66f658f3a055e31bb6a58\",\"to\":\"0xfc4bd5b3501ff2356569e4f8d7529005c75c4a8b\",\"data\":\"0xf9d9fda2000000000000000000000000fc4bd5b3501ff2356569e4f8d7529005c75c4a8b000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000001200000000000000000000000002aee4fb6fd7dc927c3a66f658f3a055e31bb6a580000000000000000000000000000000000000000000000000000000000000044e20056e6000000000000000000000000abeb77559a15f520a9e79982acd6cf8951b949490000000000000000000000007a7ce72c9c0410113e7c2608c584ea05e683f4f50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000413d3c3027060f4eb7dac33abc5496b8759bc3179c742ff146403a5aba774f7e5f04168c63b335b2560b2ee496d5301b23c057421a4613364ec2e324416c359f281c00000000000000000000000000000000000000000000000000000000000000\"}],\"id\":48,\"jsonrpc\":\"2.0\"}","requestMethod":"POST","url":"https://alfajores-forno.celo-testnet.org"}, method="estimateGas", transaction={"from":"0x2Aee4FB6fd7Dc927c3a66F658F3A055E31bB6A58","to":"0xFC4bd5B3501FF2356569e4F8D7529005c75C4A8b","data":"0xf9d9fda2000000000000000000000000fc4bd5b3501ff2356569e4f8d7529005c75c4a8b000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000001200000000000000000000000002aee4fb6fd7dc927c3a66f658f3a055e31bb6a580000000000000000000000000000000000000000000000000000000000000044e20056e6000000000000000000000000abeb77559a15f520a9e79982acd6cf8951b949490000000000000000000000007a7ce72c9c0410113e7c2608c584ea05e683f4f50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000413d3c3027060f4eb7dac33abc5496b8759bc3179c742ff146403a5aba774f7e5f04168c63b335b2560b2ee496d5301b23c057421a4613364ec2e324416c359f281c00000000000000000000000000000000000000000000000000000000000000","accessList":null}, code=UNPREDICTABLE_GAS_LIMIT, version=providers/5.4.1)[39m
 2021-07-07T02:37:37.485Z [31merror[39m: [31mError replacing owner: Error: cannot estimate gas; transaction may fail or may require manual gas limit (error={"reason":"processing response error","code":"SERVER_ERROR","body":"{\"jsonrpc\":\"2.0\",\"id\":48,\"error\":{\"code\":3,\"message\":\"execution reverted: ECDSA: invalid signature\",\"data\":\"0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001845434453413a20696e76616c6964207369676e61747572650000000000000000\"}}\n","error":{"code":3,"data":"0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001845434453413a20696e76616c6964207369676e61747572650000000000000000"},"requestBody":"{\"method\":\"eth_estimateGas\",\"params\":[{\"from\":\"0x2aee4fb6fd7dc927c3a66f658f3a055e31bb6a58\",\"to\":\"0xaba19d6f96b615d8fd1d770721ad7db095c20ea5\",\"data\":\"0xf9d9fda2000000000000000000000000aba19d6f96b615d8fd1d770721ad7db095c20ea5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000001200000000000000000000000002aee4fb6fd7dc927c3a66f658f3a055e31bb6a580000000000000000000000000000000000000000000000000000000000000044e20056e6000000000000000000000000abeb77559a15f520a9e79982acd6cf8951b949490000000000000000000000007a7ce72c9c0410113e7c2608c584ea05e683f4f5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000041e5ed557120b911dc60429e0671ec61edaf41b58c01910a938457edda30decda449e21c3c925d84a40f03c39491ac76cce7bbfd585c72fd6fb221103f894d8ccd1b00000000000000000000000000000000000000000000000000000000000000\"}],\"id\":48,\"jsonrpc\":\"2.0\"}","requestMethod":"POST","url":"https://alfajores-forno.celo-testnet.org"}, method="estimateGas", transaction={"from":"0x2Aee4FB6fd7Dc927c3a66F658F3A055E31bB6A58","to":"0xaba19d6f96b615D8fD1d770721ad7db095c20Ea5","data":"0xf9d9fda2000000000000000000000000aba19d6f96b615d8fd1d770721ad7db095c20ea5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000001200000000000000000000000002aee4fb6fd7dc927c3a66f658f3a055e31bb6a580000000000000000000000000000000000000000000000000000000000000044e20056e6000000000000000000000000abeb77559a15f520a9e79982acd6cf8951b949490000000000000000000000007a7ce72c9c0410113e7c2608c584ea05e683f4f5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000041e5ed557120b911dc60429e0671ec61edaf41b58c01910a938457edda30decda449e21c3c925d84a40f03c39491ac76cce7bbfd585c72fd6fb221103f894d8ccd1b00000000000000000000000000000000000000000000000000000000000000","accessList":null}, code=UNPREDICTABLE_GAS_LIMIT, version=providers/5.4.1)[39m
 2021-07-07T02:39:10.021Z [31merror[39m: [31mError replacing owner: Error: cannot estimate gas; transaction may fail or may require manual gas limit (error={"reason":"processing response error","code":"SERVER_ERROR","body":"{\"jsonrpc\":\"2.0\",\"id\":48,\"error\":{\"code\":3,\"message\":\"execution reverted: ECDSA: invalid signature\",\"data\":\"0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001845434453413a20696e76616c6964207369676e61747572650000000000000000\"}}\n","error":{"code":3,"data":"0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001845434453413a20696e76616c6964207369676e61747572650000000000000000"},"requestBody":"{\"method\":\"eth_estimateGas\",\"params\":[{\"from\":\"0x2aee4fb6fd7dc927c3a66f658f3a055e31bb6a58\",\"to\":\"0xa1422cc5b582d79cede01a7947df7e1e49524fdf\",\"data\":\"0xf9d9fda2000000000000000000000000a1422cc5b582d79cede01a7947df7e1e49524fdf000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000001200000000000000000000000002aee4fb6fd7dc927c3a66f658f3a055e31bb6a580000000000000000000000000000000000000000000000000000000000000044e20056e6000000000000000000000000abeb77559a15f520a9e79982acd6cf8951b949490000000000000000000000007a7ce72c9c0410113e7c2608c584ea05e683f4f50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000417a335f0766d0efec214a0c41d449b3cb3797404e3a20c3e84d30736be7b39fd37371c29f39c7b161fdb19fa739f6a7d401a8d8ef4393d4a0053634ac5a7c2d2b1b00000000000000000000000000000000000000000000000000000000000000\"}],\"id\":48,\"jsonrpc\":\"2.0\"}","requestMethod":"POST","url":"https://alfajores-forno.celo-testnet.org"}, method="estimateGas", transaction={"from":"0x2Aee4FB6fd7Dc927c3a66F658F3A055E31bB6A58","to":"0xA1422Cc5b582d79cEde01a7947dF7E1E49524FDf","data":"0xf9d9fda2000000000000000000000000a1422cc5b582d79cede01a7947df7e1e49524fdf000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000001200000000000000000000000002aee4fb6fd7dc927c3a66f658f3a055e31bb6a580000000000000000000000000000000000000000000000000000000000000044e20056e6000000000000000000000000abeb77559a15f520a9e79982acd6cf8951b949490000000000000000000000007a7ce72c9c0410113e7c2608c584ea05e683f4f50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000417a335f0766d0efec214a0c41d449b3cb3797404e3a20c3e84d30736be7b39fd37371c29f39c7b161fdb19fa739f6a7d401a8d8ef4393d4a0053634ac5a7c2d2b1b00000000000000000000000000000000000000000000000000000000000000","accessList":null}, code=UNPREDICTABLE_GAS_LIMIT, version=providers/5.4.1)[39m
+2021-07-07T18:18:27.547Z [31merror[39m: [31mTypeError: Sentry.captureException is not a function[39m
+[31m    at Object.sendTxEmail (/Users/sayertindall/Documents/resource/guardian/dist/services/customerio.js:41:16)[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5)[39m
+[31m    at async /Users/sayertindall/Documents/resource/guardian/dist/controllers/main.controller.js:140:26[39m
+2021-07-07T18:18:41.942Z [31merror[39m: [31mTypeError: sentry_1.default.captureException is not a function[39m
+[31m    at Object.sendTxEmail (/Users/sayertindall/Documents/resource/guardian/dist/services/customerio.js:44:26)[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5)[39m
+[31m    at async /Users/sayertindall/Documents/resource/guardian/dist/controllers/main.controller.js:140:26[39m
+2021-07-07T18:45:49.079Z [31merror[39m: [31mError sending CIO transactional email: [39m
+2021-07-07T18:47:26.209Z [31merror[39m: [31m{[39m
+[31m  message: 'Request entity must be JSON encoded and not exceed 3024 KB.',[39m
+[31m  statusCode: 400,[39m
+[31m  response: <ref *1> IncomingMessage {[39m
+[31m    _readableState: ReadableState {[39m
+[31m      objectMode: false,[39m
+[31m      highWaterMark: 16384,[39m
+[31m      buffer: BufferList { head: null, tail: null, length: 0 },[39m
+[31m      length: 0,[39m
+[31m      pipes: [],[39m
+[31m      flowing: true,[39m
+[31m      ended: true,[39m
+[31m      endEmitted: true,[39m
+[31m      reading: false,[39m
+[31m      sync: true,[39m
+[31m      needReadable: false,[39m
+[31m      emittedReadable: false,[39m
+[31m      readableListening: false,[39m
+[31m      resumeScheduled: false,[39m
+[31m      errorEmitted: false,[39m
+[31m      emitClose: true,[39m
+[31m      autoDestroy: false,[39m
+[31m      destroyed: false,[39m
+[31m      errored: null,[39m
+[31m      closed: false,[39m
+[31m      closeEmitted: false,[39m
+[31m      defaultEncoding: 'utf8',[39m
+[31m      awaitDrainWriters: null,[39m
+[31m      multiAwaitDrain: false,[39m
+[31m      readingMore: true,[39m
+[31m      decoder: null,[39m
+[31m      encoding: null,[39m
+[31m      [Symbol(kPaused)]: false[39m
+[31m    },[39m
+[31m    _events: [Object: null prototype] {[39m
+[31m      end: [Array],[39m
+[31m      close: [Array],[39m
+[31m      data: [Function (anonymous)],[39m
+[31m      error: [Function (anonymous)][39m
+[31m    },[39m
+[31m    _eventsCount: 4,[39m
+[31m    _maxListeners: undefined,[39m
+[31m    socket: TLSSocket {[39m
+[31m      _tlsOptions: [Object],[39m
+[31m      _secureEstablished: true,[39m
+[31m      _securePending: false,[39m
+[31m      _newSessionPending: false,[39m
+[31m      _controlReleased: true,[39m
+[31m      secureConnecting: false,[39m
+[31m      _SNICallback: null,[39m
+[31m      servername: 'api.customer.io',[39m
+[31m      alpnProtocol: false,[39m
+[31m      authorized: true,[39m
+[31m      authorizationError: null,[39m
+[31m      encrypted: true,[39m
+[31m      _events: [Object: null prototype],[39m
+[31m      _eventsCount: 10,[39m
+[31m      connecting: false,[39m
+[31m      _hadError: false,[39m
+[31m      _parent: null,[39m
+[31m      _host: 'api.customer.io',[39m
+[31m      _readableState: [ReadableState],[39m
+[31m      _maxListeners: undefined,[39m
+[31m      _writableState: [WritableState],[39m
+[31m      allowHalfOpen: false,[39m
+[31m      _sockname: null,[39m
+[31m      _pendingData: null,[39m
+[31m      _pendingEncoding: '',[39m
+[31m      server: undefined,[39m
+[31m      _server: null,[39m
+[31m      ssl: [TLSWrap],[39m
+[31m      _requestCert: true,[39m
+[31m      _rejectUnauthorized: true,[39m
+[31m      parser: null,[39m
+[31m      _httpMessage: [ClientRequest],[39m
+[31m      timeout: 10000,[39m
+[31m      [Symbol(res)]: [TLSWrap],[39m
+[31m      [Symbol(verified)]: true,[39m
+[31m      [Symbol(pendingSession)]: null,[39m
+[31m      [Symbol(async_id_symbol)]: 149,[39m
+[31m      [Symbol(kHandle)]: [TLSWrap],[39m
+[31m      [Symbol(kSetNoDelay)]: false,[39m
+[31m      [Symbol(lastWriteQueueSize)]: 0,[39m
+[31m      [Symbol(timeout)]: Timeout {[39m
+[31m        _idleTimeout: 10000,[39m
+[31m        _idlePrev: [TimersList],[39m
+[31m        _idleNext: [TimersList],[39m
+[31m        _idleStart: 9133,[39m
+[31m        _onTimeout: [Function: bound ],[39m
+[31m        _timerArgs: undefined,[39m
+[31m        _repeat: null,[39m
+[31m        _destroyed: false,[39m
+[31m        [Symbol(refed)]: false,[39m
+[31m        [Symbol(kHasPrimitive)]: false,[39m
+[31m        [Symbol(asyncId)]: 158,[39m
+[31m        [Symbol(triggerId)]: 156[39m
+[31m      },[39m
+[31m      [Symbol(kBuffer)]: null,[39m
+[31m      [Symbol(kBufferCb)]: null,[39m
+[31m      [Symbol(kBufferGen)]: null,[39m
+[31m      [Symbol(kCapture)]: false,[39m
+[31m      [Symbol(kBytesRead)]: 0,[39m
+[31m      [Symbol(kBytesWritten)]: 0,[39m
+[31m      [Symbol(connect-options)]: [Object],[39m
+[31m      [Symbol(RequestTimeout)]: undefined[39m
+[31m    },[39m
+[31m    httpVersionMajor: 1,[39m
+[31m    httpVersionMinor: 1,[39m
+[31m    httpVersion: '1.1',[39m
+[31m    complete: true,[39m
+[31m    headers: {[39m
+[31m      'cache-control': 'no-cache, no-store, must-revalidate, max-age=0',[39m
+[31m      'content-length': '95',[39m
+[31m      'content-type': 'application/json; charset=utf-8',[39m
+[31m      date: 'Wed, 07 Jul 2021 18:47:26 GMT',[39m
+[31m      status: '400 Bad Request',[39m
+[31m      via: '1.1 google',[39m
+[31m      'alt-svc': 'clear',[39m
+[31m      connection: 'close'[39m
+[31m    },[39m
+[31m    rawHeaders: [[39m
+[31m      'Cache-Control',[39m
+[31m      'no-cache, no-store, must-revalidate, max-age=0',[39m
+[31m      'Content-Length',[39m
+[31m      '95',[39m
+[31m      'Content-Type',[39m
+[31m      'application/json; charset=utf-8',[39m
+[31m      'Date',[39m
+[31m      'Wed, 07 Jul 2021 18:47:26 GMT',[39m
+[31m      'Status',[39m
+[31m      '400 Bad Request',[39m
+[31m      'Via',[39m
+[31m      '1.1 google',[39m
+[31m      'Alt-Svc',[39m
+[31m      'clear',[39m
+[31m      'Connection',[39m
+[31m      'close'[39m
+[31m    ],[39m
+[31m    trailers: {},[39m
+[31m    rawTrailers: [],[39m
+[31m    aborted: false,[39m
+[31m    upgrade: false,[39m
+[31m    url: '',[39m
+[31m    method: null,[39m
+[31m    statusCode: 400,[39m
+[31m    statusMessage: 'Bad Request',[39m
+[31m    client: TLSSocket {[39m
+[31m      _tlsOptions: [Object],[39m
+[31m      _secureEstablished: true,[39m
+[31m      _securePending: false,[39m
+[31m      _newSessionPending: false,[39m
+[31m      _controlReleased: true,[39m
+[31m      secureConnecting: false,[39m
+[31m      _SNICallback: null,[39m
+[31m      servername: 'api.customer.io',[39m
+[31m      alpnProtocol: false,[39m
+[31m      authorized: true,[39m
+[31m      authorizationError: null,[39m
+[31m      encrypted: true,[39m
+[31m      _events: [Object: null prototype],[39m
+[31m      _eventsCount: 10,[39m
+[31m      connecting: false,[39m
+[31m      _hadError: false,[39m
+[31m      _parent: null,[39m
+[31m      _host: 'api.customer.io',[39m
+[31m      _readableState: [ReadableState],[39m
+[31m      _maxListeners: undefined,[39m
+[31m      _writableState: [WritableState],[39m
+[31m      allowHalfOpen: false,[39m
+[31m      _sockname: null,[39m
+[31m      _pendingData: null,[39m
+[31m      _pendingEncoding: '',[39m
+[31m      server: undefined,[39m
+[31m      _server: null,[39m
+[31m      ssl: [TLSWrap],[39m
+[31m      _requestCert: true,[39m
+[31m      _rejectUnauthorized: true,[39m
+[31m      parser: null,[39m
+[31m      _httpMessage: [ClientRequest],[39m
+[31m      timeout: 10000,[39m
+[31m      [Symbol(res)]: [TLSWrap],[39m
+[31m      [Symbol(verified)]: true,[39m
+[31m      [Symbol(pendingSession)]: null,[39m
+[31m      [Symbol(async_id_symbol)]: 149,[39m
+[31m      [Symbol(kHandle)]: [TLSWrap],[39m
+[31m      [Symbol(kSetNoDelay)]: false,[39m
+[31m      [Symbol(lastWriteQueueSize)]: 0,[39m
+[31m      [Symbol(timeout)]: Timeout {[39m
+[31m        _idleTimeout: 10000,[39m
+[31m        _idlePrev: [TimersList],[39m
+[31m        _idleNext: [TimersList],[39m
+[31m        _idleStart: 9133,[39m
+[31m        _onTimeout: [Function: bound ],[39m
+[31m        _timerArgs: undefined,[39m
+[31m        _repeat: null,[39m
+[31m        _destroyed: false,[39m
+[31m        [Symbol(refed)]: false,[39m
+[31m        [Symbol(kHasPrimitive)]: false,[39m
+[31m        [Symbol(asyncId)]: 158,[39m
+[31m        [Symbol(triggerId)]: 156[39m
+[31m      },[39m
+[31m      [Symbol(kBuffer)]: null,[39m
+[31m      [Symbol(kBufferCb)]: null,[39m
+[31m      [Symbol(kBufferGen)]: null,[39m
+[31m      [Symbol(kCapture)]: false,[39m
+[31m      [Symbol(kBytesRead)]: 0,[39m
+[31m      [Symbol(kBytesWritten)]: 0,[39m
+[31m      [Symbol(connect-options)]: [Object],[39m
+[31m      [Symbol(RequestTimeout)]: undefined[39m
+[31m    },[39m
+[31m    _consuming: false,[39m
+[31m    _dumped: false,[39m
+[31m    req: ClientRequest {[39m
+[31m      _events: [Object: null prototype],[39m
+[31m      _eventsCount: 6,[39m
+[31m      _maxListeners: undefined,[39m
+[31m      outputData: [],[39m
+[31m      outputSize: 0,[39m
+[31m      writable: true,[39m
+[31m      destroyed: false,[39m
+[31m      _last: true,[39m
+[31m      chunkedEncoding: false,[39m
+[31m      shouldKeepAlive: false,[39m
+[31m      _defaultKeepAlive: true,[39m
+[31m      useChunkedEncodingByDefault: true,[39m
+[31m      sendDate: false,[39m
+[31m      _removedConnection: false,[39m
+[31m      _removedContLen: false,[39m
+[31m      _removedTE: false,[39m
+[31m      _contentLength: null,[39m
+[31m      _hasBody: true,[39m
+[31m      _trailer: '',[39m
+[31m      finished: true,[39m
+[31m      _headerSent: true,[39m
+[31m      socket: [TLSSocket],[39m
+[31m      _header: 'POST /v1/send/email HTTP/1.1\r\n' +[39m
+[31m        'Authorization: Bearer f540dc9e64f90f61b0414df85885551f\r\n' +[39m
+[31m        'Content-Type: application/json\r\n' +[39m
+[31m        'host: api.customer.io\r\n' +[39m
+[31m        'content-length: 166\r\n' +[39m
+[31m        'Connection: close\r\n' +[39m
+[31m        '\r\n',[39m
+[31m      _keepAliveTimeout: 0,[39m
+[31m      _onPendingData: [Function: noopPendingOutput],[39m
+[31m      agent: [Agent],[39m
+[31m      socketPath: undefined,[39m
+[31m      method: 'POST',[39m
+[31m      maxHeaderSize: undefined,[39m
+[31m      insecureHTTPParser: undefined,[39m
+[31m      path: '/v1/send/email',[39m
+[31m      _ended: true,[39m
+[31m      res: [Circular *1],[39m
+[31m      aborted: false,[39m
+[31m      timeoutCb: [Function: emitRequestTimeout],[39m
+[31m      upgradeOrConnect: false,[39m
+[31m      parser: null,[39m
+[31m      maxHeadersCount: null,[39m
+[31m      reusedSocket: false,[39m
+[31m      host: 'api.customer.io',[39m
+[31m      protocol: 'https:',[39m
+[31m      [Symbol(kCapture)]: false,[39m
+[31m      [Symbol(kNeedDrain)]: false,[39m
+[31m      [Symbol(corked)]: 0,[39m
+[31m      [Symbol(kOutHeaders)]: [Object: null prototype][39m
+[31m    },[39m
+[31m    request: Request {[39m
+[31m      _events: [Object: null prototype],[39m
+[31m      _eventsCount: 5,[39m
+[31m      _maxListeners: undefined,[39m
+[31m      timeout: 10000,[39m
+[31m      region: [Region],[39m
+[31m      method: 'POST',[39m
+[31m      uri: [Url],[39m
+[31m      headers: [Object],[39m
+[31m      body: '{"to":"sayer@resourcenetwork.co","identifiers":{"id":"91763525839474937108379"},"attachments":{},"message_data":"763377","headers":{},"transactional_message_id":"13"}',[39m
+[31m      callback: [Function (anonymous)],[39m
+[31m      readable: true,[39m
+[31m      writable: true,[39m
+[31m      explicitMethod: true,[39m
+[31m      _qs: [Querystring],[39m
+[31m      _auth: [Auth],[39m
+[31m      _oauth: [OAuth],[39m
+[31m      _multipart: [Multipart],[39m
+[31m      _redirect: [Redirect],[39m
+[31m      _tunnel: [Tunnel],[39m
+[31m      setHeader: [Function (anonymous)],[39m
+[31m      hasHeader: [Function (anonymous)],[39m
+[31m      getHeader: [Function (anonymous)],[39m
+[31m      removeHeader: [Function (anonymous)],[39m
+[31m      localAddress: undefined,[39m
+[31m      pool: {},[39m
+[31m      dests: [],[39m
+[31m      __isRequestRequest: true,[39m
+[31m      _callback: [Function (anonymous)],[39m
+[31m      proxy: null,[39m
+[31m      tunnel: true,[39m
+[31m      setHost: true,[39m
+[31m      originalCookieHeader: undefined,[39m
+[31m      _disableCookies: true,[39m
+[31m      _jar: undefined,[39m
+[31m      port: 443,[39m
+[31m      host: 'api.customer.io',[39m
+[31m      path: '/v1/send/email',[39m
+[31m      httpModule: [Object],[39m
+[31m      agentClass: [Function: Agent],[39m
+[31m      agent: [Agent],[39m
+[31m      _started: true,[39m
+[31m      href: 'https://api.customer.io/v1/send/email',[39m
+[31m      req: [ClientRequest],[39m
+[31m      ntick: true,[39m
+[31m      timeoutTimer: null,[39m
+[31m      response: [Circular *1],[39m
+[31m      originalHost: 'api.customer.io',[39m
+[31m      originalHostHeaderName: 'host',[39m
+[31m      responseContent: [Circular *1],[39m
+[31m      _destdata: true,[39m
+[31m      _ended: true,[39m
+[31m      _callbackCalled: true,[39m
+[31m      [Symbol(kCapture)]: false[39m
+[31m    },[39m
+[31m    toJSON: [Function: responseToJSON],[39m
+[31m    caseless: Caseless { dict: [Object] },[39m
+[31m    body: '{\n' +[39m
+[31m      '  "meta": {\n' +[39m
+[31m      '    "error": "Request entity must be JSON encoded and not exceed 3024 KB."\n' +[39m
+[31m      '  }\n' +[39m
+[31m      '}\n',[39m
+[31m    [Symbol(kCapture)]: false,[39m
+[31m    [Symbol(RequestTimeout)]: undefined[39m
+[31m  },[39m
+[31m  body: '{\n' +[39m
+[31m    '  "meta": {\n' +[39m
+[31m    '    "error": "Request entity must be JSON encoded and not exceed 3024 KB."\n' +[39m
+[31m    '  }\n' +[39m
+[31m    '}\n'[39m
+[31m}[39m

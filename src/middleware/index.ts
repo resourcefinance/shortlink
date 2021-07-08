@@ -33,7 +33,8 @@ export const auth = unless(
   "/api/",
   "/api/token",
   "/api/register",
-  "/api/recover"
+  "/api/recover",
+  "/api/reset"
 );
 
 export const validate = (schema) => async (req, res, next) => {
