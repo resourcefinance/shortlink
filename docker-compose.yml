@@ -5,7 +5,7 @@ services:
     container_name: guardian-pg
     image: postgres
     ports:
-      - "127.0.0.1:5432:5432"
+      - "0.0.0.0:5432:5432"
     environment:
       - "POSTGRES_PASSWORD=resource"
       - "POSTGRES_USER=resource"
