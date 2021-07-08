@@ -2,11 +2,18 @@ version: "3.7"
 
 services:
   postgresql:
-    image: docker.io/bitnami/postgresql:13
+    image: postgres
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
+    environment:
+      -  POSTGRES_PASSWORD=root
+      -  POSTGRES_USER=root
     volumes:
-      - "postgresql_data:/bitnami/postgresql"
+      - pg_conf:/etc/postgresql
+      - pg_log:/var/log/postgresql
+      - pg_data:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
     environment:
       - "ALLOW_EMPTY_PASSWORD=yes"
 
@@ -14,12 +21,12 @@ services:
     container_name: guardian
     build: ./
     ports:
-      - "80:80"
+      - "127.0.0.1:80:80"
     env_file:
       - ./.env
-    restart:
-      - always
+    restart: "always"
 
 volumes:
-  postgresql_data:
-    driver: local
+  pg_data:
+  pg_conf:
+  pg_log:
