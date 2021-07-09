@@ -36,6 +36,8 @@ export const createServer = (
         }
         return callback(null, true);
       },
+      allowedHeaders: "X-Requested-With, Content-Type, Authorization",
+      methods: "GET, POST, OPTION",
     })
   );
 
