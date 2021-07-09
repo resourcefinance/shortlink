@@ -12,22 +12,16 @@ export const createServer = (
   ...controllers: Controller[]
 ): express.Express => {
   const app = express();
-  const whitelist = ["http://localhost:3000", "https://resourcenetwork.co"];
-
-  app.use(express.json());
-  app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-  });
 
   app.use(
     cors({
       origin: (origin, callback) => {
         // allow requests with no origin
+        const whitelist = [
+          "http://localhost:3000",
+          "https://resourcenetwork.co",
+        ];
+
         if (!origin) return callback(null, true);
         if (whitelist.indexOf(origin) === -1) {
           var message =
@@ -40,6 +34,8 @@ export const createServer = (
       methods: "GET, POST, OPTION",
     })
   );
+
+  app.use(express.json());
 
   if (!isProd()) {
     app.use(bodyParser.json());
