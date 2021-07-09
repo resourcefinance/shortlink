@@ -2,8 +2,13 @@ import { User } from "@prisma/client";
 import { Router } from "express";
 import * as yup from "yup";
 
-import { validate } from "../middleware";
-import { generate, log, replaceMultiSigOwner } from "../services";
+import { validate as validateSchema } from "../middleware";
+import {
+  generate,
+  validate as validateTotp,
+  log,
+  replaceMultiSigOwner,
+} from "../services";
 import { sendTxEmail } from "../services/customerio";
 import { Controller } from "./types";
 
@@ -41,56 +46,63 @@ export const main: Controller = ({ prisma }) => {
     next();
   });
 
-  router.post("/register", validate(registerSchema), async (req, res, next) => {
-    const { userId, email, multiSigAddress, clientAddress } = req.body;
+  router.post(
+    "/register",
+    validateSchema(registerSchema),
+    async (req, res, next) => {
+      if (!(req as any).user)
+        res.status(401).send({ ERROR: true, MESSAGE: "NOT AUTHENTICATED" });
 
-    try {
-      const exists =
-        (await prisma.user.count({ where: { userId } })) ||
-        (await prisma.user.count({ where: { email } }));
+      const { userId, email, multiSigAddress, clientAddress } = req.body;
 
-      if (exists) {
-        next();
-        return res
-          .status(400)
-          .send({ ERROR: true, MESSAGE: "USER WITH EMAIL OR USERID EXISTS" });
-      }
+      try {
+        const exists =
+          (await prisma.user.count({ where: { userId } })) ||
+          (await prisma.user.count({ where: { email } }));
 
-      const validateEmailToken = await generate();
+        if (exists) {
+          next();
+          return res
+            .status(400)
+            .send({ ERROR: true, MESSAGE: "USER WITH EMAIL OR USERID EXISTS" });
+        }
 
-      const user = await prisma.user.create({
-        data: {
-          userId,
-          email,
-          multiSigAddress,
-          validateEmailToken,
-          clientAddress,
-        },
-      });
+        const validateEmailToken = await generate();
 
-      if (!user) {
-        res.status(500).send({
-          ERROR: true,
-          MESSAGE: "INTERNAL SERVER ERROR: COULD NOT CREATE USER",
+        const user = await prisma.user.create({
+          data: {
+            userId,
+            email,
+            multiSigAddress,
+            validateEmailToken,
+            clientAddress,
+          },
         });
+
+        if (!user) {
+          res.status(500).send({
+            ERROR: true,
+            MESSAGE: "INTERNAL SERVER ERROR: COULD NOT CREATE USER",
+          });
+          next();
+          return;
+        }
+
         next();
-        return;
+        return res.status(200).json({
+          user,
+        });
+      } catch (e) {
+        log.error(e);
+        return res.status(500).send({
+          ERROR: true,
+          MESSAGE: "INTERNAL SERVER ERROR: " + e,
+        });
       }
-
-      next();
-      return res.status(200).json({
-        user,
-      });
-    } catch (e) {
-      log.error(e);
-      return res.status(500).send({
-        ERROR: true,
-        MESSAGE: "INTERNAL SERVER ERROR: " + e,
-      });
     }
-  });
+  );
 
-  router.post("/reset", validate(resetSchema), async (req, res, next) => {
+  router.post("/reset", validateSchema(resetSchema), async (req, res, next) => {
     const { email } = req.body;
 
     if (!email) {
@@ -133,74 +145,77 @@ export const main: Controller = ({ prisma }) => {
     }
   });
 
-  router.post("/recover", validate(recoverSchema), async (req, res, next) => {
-    if (!(req as any).user)
-      res.status(401).send({ ERROR: true, MESSAGE: "NOT AUTHENTICATED" });
+  router.post(
+    "/recover",
+    validateSchema(recoverSchema),
+    async (req, res, next) => {
+      const { validateEmailToken, email, newClientAddress } = req.body;
 
-    const { validateEmailToken, email, newClientAddress } = req.body;
-
-    try {
-      const userToUpdate: User | null = await prisma.user.findUnique({
-        where: {
-          email,
-        },
-      });
-
-      if (!userToUpdate) {
-        log.info("Error creating user with email: " + email);
-        res.status(401).send({
-          ERROR: true,
-          MESSAGE:
-            "INTERNAL SERVER ERROR: COULD NOT FIND USER WITH EMAIL: " + email,
+      try {
+        const userToUpdate: User | null = await prisma.user.findUnique({
+          where: {
+            email,
+          },
         });
-        next();
-        return;
-      }
-      if (validateEmailToken !== userToUpdate.validateEmailToken) {
-        log.info(
-          ("Invalid validateEmailToken for token: " +
-            userToUpdate.validateEmailToken) as string
-        );
-        next();
-        return res.status(401).send({
-          ERROR: true,
-          MESSAGE: "INTERNAL SERVER ERROR: INVALID TOKEN",
-        });
-      }
 
-      const { id } = userToUpdate;
+        if (!userToUpdate) {
+          log.info("Error: Could not find user with email: " + email);
+          res.status(401).send({
+            ERROR: true,
+            MESSAGE:
+              "INTERNAL SERVER ERROR: COULD NOT FIND USER WITH EMAIL: " + email,
+          });
+          next();
+          return;
+        }
 
-      const { transactionId } = await replaceMultiSigOwner({
-        id,
-        newClientAddress,
-        prisma,
-      });
+        if (!(await validateTotp(validateEmailToken))) {
+          log.info(
+            ("Invalid validateEmailToken for token: " +
+              userToUpdate.validateEmailToken) as string
+          );
+          next();
+          return res.status(401).send({
+            ERROR: true,
+            MESSAGE: "INTERNAL SERVER ERROR: INVALID TOKEN",
+          });
+        }
 
-      if (!transactionId) {
-        log.info("Error replacing multisig owner: " + email, {
+        const { id } = userToUpdate;
+
+        const { transactionId } = await replaceMultiSigOwner({
           id,
           newClientAddress,
           prisma,
         });
-        res.status(500).send({
-          ERROR: true,
-          MESSAGE: "INTERNAL SERVER ERROR: COULD NOT REPLACE MULTISIG OWNER",
-        });
+
+        if (!transactionId) {
+          log.info("Error replacing multisig owner: " + email, {
+            id,
+            newClientAddress,
+          });
+          res.status(500).send({
+            ERROR: true,
+            MESSAGE: "INTERNAL SERVER ERROR: COULD NOT REPLACE MULTISIG OWNER",
+          });
+          next();
+          return;
+        }
+
         next();
-        return;
+
+        return res
+          .status(200)
+          .json({ user: userToUpdate, tx: "transactionId" });
+      } catch (e) {
+        log.error(e);
+        return res.status(500).send({
+          ERROR: true,
+          MESSAGE: "INTERNAL SERVER ERROR: " + e,
+        });
       }
-
-      next();
-
-      return res.status(200).json({ user: userToUpdate, tx: transactionId });
-    } catch (e) {
-      log.error(e);
-      return res.status(500).send({
-        ERROR: true,
-        MESSAGE: "INTERNAL SERVER ERROR: " + e,
-      });
     }
-  });
+  );
 
   return {
     path: "/api",

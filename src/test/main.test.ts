@@ -8,7 +8,6 @@ import { createServer } from "../server";
 import { getGuardianWallet } from "../services/wallet";
 import { MultiSigWallet__factory } from "../types/factories/MultiSigWallet__factory";
 import { MultiSigWallet } from "../types/MultiSigWallet";
-import { tryWithGas } from "../services/utils";
 
 const prisma = new PrismaClient();
 const nanoid = customAlphabet("1234567890abcdef", 10);
@@ -18,8 +17,10 @@ describe("Guardian Test Suite", function () {
   const newClient = "0x7a7cE72c9c0410113e7C2608c584Ea05e683F4f5";
   const oldClient = "0xAbeB77559A15F520A9e79982ACd6Cf8951b94949";
   const email = nanoid() + "@resourcenetwork.co";
-
-  beforeAll(async function () {
+  const jwt =
+    "Bearer eyJhbGciOiJFZERTQSJ9.eyJpZCI6ImNrcXZ1bG9rNDAwMDJhb3NqMHhycms2ajUiLCJpYXQiOjE2MjU4MDU0NzUsImV4cCI6MTY1NjkwOTQ3NX0.byxffg0pTkw7t6Hl2PcjawITACCXMbSLJqs3oNotfmPJG7XYduvbLVsJQ-pplPGyc9dmiH3fPxzfReRVy-DuDQ";
+  
+    beforeAll(async function () {
     //   init express app
     app = createServer(
       {
@@ -62,10 +63,25 @@ describe("Guardian Test Suite", function () {
       .catch((err) => console.log(err));
   });
 
+  it("should throw when registering new user without proper jwt", async () => {
+    return await request(app)
+      .post("/api/register")
+      .set("Content-Type", "application/json")
+      .send(data)
+      .then((response) => {
+        const {
+          body: { user },
+        } = response;
+        expect(user).toBeNull();
+      })
+      .catch((err) => console.log(err));
+  });
+
   it("should respond with a newly created user", async () => {
     return await request(app)
       .post("/api/register")
       .set("Content-Type", "application/json")
+      .set({ Authorization: jwt })
       .send(data)
       .then((response) => {
         const {
@@ -75,13 +91,13 @@ describe("Guardian Test Suite", function () {
         expect(user).toHaveProperty("email");
         expect(user).toHaveProperty("clientAddress");
         expect(user).toHaveProperty("multiSigAddress");
+        expect(user).toHaveProperty("createdAt");
       })
       .catch((err) => console.log(err));
   });
 
   it("should call replaceMultiSigOwner successfully", async () => {
     const user = await prisma.user.findUnique({ where: { email } });
-    console.log("wallet.test.ts -- user:", user);
     expect(user).toBeTruthy();
 
     const toReplace = {
@@ -89,8 +105,6 @@ describe("Guardian Test Suite", function () {
       newClientAddress: newClient,
       email,
     };
-
-    console.log("wallet.test.ts -- toReplace:", toReplace);
 
     return await request(app)
       .post("/api/recover")
@@ -100,9 +114,9 @@ describe("Guardian Test Suite", function () {
         const {
           body: { user, tx },
         } = response;
-
-        console.log("wallet.test.ts -- user:", user);
-        console.log("wallet.test.ts -- tx:", tx);
+        console.log("main.test.ts -- response:", response);
+        expect(tx).toBeTruthy();
+        expect(user).toBeTruthy();
       })
       .catch((err) => console.log(err));
   });

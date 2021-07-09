@@ -681,3 +681,24 @@
 [31m    '  }\n' +[39m
 [31m    '}\n'[39m
 [31m}[39m
+2021-07-09T16:45:36.219Z [31merror[39m: [31mError [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client[39m
+[31m    at ServerResponse.setHeader (_http_outgoing.js:558:11)[39m
+[31m    at ServerResponse.header (/Users/sayertindall/Documents/resource/guardian/node_modules/express/lib/response.js:771:10)[39m
+[31m    at ServerResponse.send (/Users/sayertindall/Documents/resource/guardian/node_modules/express/lib/response.js:170:12)[39m
+[31m    at ServerResponse.json (/Users/sayertindall/Documents/resource/guardian/node_modules/express/lib/response.js:267:15)[39m
+[31m    at ServerResponse.send (/Users/sayertindall/Documents/resource/guardian/node_modules/express/lib/response.js:158:21)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/dist/controllers/main.controller.js:148:33[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  code: 'ERR_HTTP_HEADERS_SENT'[39m
+[31m}[39m
+2021-07-09T16:52:21.974Z [31merror[39m: [31muserId is a required field[39m
+2021-07-09T16:52:37.239Z [31merror[39m: [31mclientAddress is a required field[39m
+2021-07-09T16:52:48.719Z [31merror[39m: [31mmultiSigAddress is a required field[39m
+2021-07-09T16:53:01.535Z [31merror[39m: [31mmultiSigAddress is a required field[39m
+2021-07-09T17:02:24.972Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-09T17:16:40.064Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-09T17:21:30.410Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-09T17:24:45.158Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-09T17:26:17.812Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-09T17:28:18.561Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m
+2021-07-09T17:37:16.657Z [31merror[39m: [31mError replacing owner: Error: call revert exception (method="nonces(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)[39m

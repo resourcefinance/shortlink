@@ -81,7 +81,9 @@ export default {
   // ],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-  // moduleNameMapper: {},
+  moduleNameMapper: {
+    "jose(.*)": "<rootDir>/node_modules/jose/dist/node/cjs/$1.js",
+  },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
@@ -171,6 +173,8 @@ export default {
     "^.+\\.(ts|tsx)$": "ts-jest",
   },
 
+  testTimeout: 3000000,
+
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [
   //   "/node_modules/",
@@ -188,13 +192,4 @@ export default {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-};
-module.exports = {
-  roots: ["<rootDir>/src"],
-  testMatch: ["**/test/**/*.+(ts|tsx|js)", "**/?(*.)+(spec|test).+(ts|tsx|js)"],
-  transform: {
-    "^.+\\.(ts|tsx)$": "ts-jest",
-  },
-  setupFiles: [],
-  testTimeout: 3000000,
 };
