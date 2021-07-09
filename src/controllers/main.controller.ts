@@ -48,7 +48,7 @@ export const main: Controller = ({ prisma }) => {
   router.use(cors());
 
   router.get("/", (_, res, next) => {
-    res.sendStatus(200).send("OK");
+    res.status(200).send("OK");
     next();
   });
 
@@ -57,7 +57,9 @@ export const main: Controller = ({ prisma }) => {
     validateSchema(registerSchema),
     async (req, res, next) => {
       if (!(req as any).user)
-        res.sendStatus(401).send({ ERROR: true, MESSAGE: "NOT AUTHENTICATED" });
+        return res
+          .status(401)
+          .send({ ERROR: true, MESSAGE: "NOT AUTHENTICATED" });
 
       const { userId, email, multiSigAddress, clientAddress } = req.body;
 
@@ -69,7 +71,7 @@ export const main: Controller = ({ prisma }) => {
         if (exists) {
           next();
           return res
-            .sendStatus(400)
+            .status(400)
             .send({ ERROR: true, MESSAGE: "USER WITH EMAIL OR USERID EXISTS" });
         }
 
@@ -86,25 +88,24 @@ export const main: Controller = ({ prisma }) => {
         });
 
         if (!user) {
-          res.sendStatus(500).send({
+          next();
+          return res.status(500).send({
             ERROR: true,
             MESSAGE: "INTERNAL SERVER ERROR: COULD NOT CREATE USER",
           });
-          next();
-          return;
         }
 
         const guardian = await guardianAddr();
 
         next();
 
-        res.sendStatus(200).json({
+        return res.status(200).json({
           user,
           guardian,
         });
       } catch (e) {
         log.error(e);
-        res.sendStatus(500).send({
+        return res.status(500).send({
           ERROR: true,
           MESSAGE: "INTERNAL SERVER ERROR: " + e,
         });
@@ -116,7 +117,7 @@ export const main: Controller = ({ prisma }) => {
     const { email } = req.body;
 
     if (!email) {
-      return res.sendStatus(401).send({
+      return res.status(401).send({
         ERROR: true,
         MESSAGE: "INTERNAL SERVER ERROR: EMAIL PARAM REQUIRED",
       });
@@ -128,7 +129,7 @@ export const main: Controller = ({ prisma }) => {
 
       if (!user) {
         next();
-        return res.sendStatus(401).send({
+        return res.status(401).send({
           ERROR: true,
           MESSAGE:
             "INTERNAL SERVER ERROR: COULD NOT FIND USER WITH EMAIL: " + email,
@@ -142,13 +143,13 @@ export const main: Controller = ({ prisma }) => {
       };
 
       const resp = await sendTxEmail(payload as any);
-      if (resp) return res.sendStatus(200).send({ sent: true });
+      if (resp) return res.status(200).send({ sent: true });
 
-      return res.sendStatus(200).send({ sent: false });
+      return res.status(200).send({ sent: false });
     } catch (e) {
       log.error(e);
       next();
-      return res.sendStatus(500).send({
+      return res.status(500).send({
         ERROR: true,
         MESSAGE: "INTERNAL SERVER ERROR: " + e,
       });
@@ -170,7 +171,7 @@ export const main: Controller = ({ prisma }) => {
 
         if (!userToUpdate) {
           log.info("Error: Could not find user with email: " + email);
-          res.sendStatus(401).send({
+          return res.status(401).send({
             ERROR: true,
             MESSAGE:
               "INTERNAL SERVER ERROR: COULD NOT FIND USER WITH EMAIL: " + email,
@@ -185,7 +186,7 @@ export const main: Controller = ({ prisma }) => {
               userToUpdate.validateEmailToken) as string
           );
           next();
-          return res.sendStatus(401).send({
+          return res.status(401).send({
             ERROR: true,
             MESSAGE: "INTERNAL SERVER ERROR: INVALID TOKEN",
           });
@@ -204,7 +205,7 @@ export const main: Controller = ({ prisma }) => {
             id,
             newClientAddress,
           });
-          res.sendStatus(500).send({
+          res.status(500).send({
             ERROR: true,
             MESSAGE: "INTERNAL SERVER ERROR: COULD NOT REPLACE MULTISIG OWNER",
           });
@@ -219,7 +220,7 @@ export const main: Controller = ({ prisma }) => {
           .json({ user: userToUpdate, tx: "transactionId" });
       } catch (e) {
         log.error(e);
-        return res.sendStatus(500).send({
+        return res.status(500).send({
           ERROR: true,
           MESSAGE: "INTERNAL SERVER ERROR: " + e,
         });

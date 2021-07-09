@@ -723,3 +723,22 @@
 2021-07-09T17:40:32.295Z [34minfo[39m: [34mInvalid validateEmailToken for token: 271981[39m
 2021-07-09T17:42:23.330Z [34minfo[39m: [34mInvalid validateEmailToken for token: 271981[39m
 2021-07-09T17:42:59.273Z [34minfo[39m: [34mInvalid validateEmailToken for token: 271981[39m
+2021-07-09T22:56:31.798Z [31merror[39m: [31mError [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client[39m
+[31m    at ServerResponse.setHeader (_http_outgoing.js:558:11)[39m
+[31m    at ServerResponse.header (/Users/sayertindall/Documents/resource/guardian/node_modules/express/lib/response.js:771:10)[39m
+[31m    at ServerResponse.send (/Users/sayertindall/Documents/resource/guardian/node_modules/express/lib/response.js:170:12)[39m
+[31m    at ServerResponse.json (/Users/sayertindall/Documents/resource/guardian/node_modules/express/lib/response.js:267:15)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/dist/controllers/main.controller.js:95:33[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  code: 'ERR_HTTP_HEADERS_SENT'[39m
+[31m}[39m
+2021-07-09T22:57:39.534Z [31merror[39m: [31mError [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client[39m
+[31m    at ServerResponse.setHeader (_http_outgoing.js:558:11)[39m
+[31m    at ServerResponse.header (/Users/sayertindall/Documents/resource/guardian/node_modules/express/lib/response.js:771:10)[39m
+[31m    at ServerResponse.send (/Users/sayertindall/Documents/resource/guardian/node_modules/express/lib/response.js:170:12)[39m
+[31m    at ServerResponse.json (/Users/sayertindall/Documents/resource/guardian/node_modules/express/lib/response.js:267:15)[39m
+[31m    at ServerResponse.send (/Users/sayertindall/Documents/resource/guardian/node_modules/express/lib/response.js:158:21)[39m
+[31m    at /Users/sayertindall/Documents/resource/guardian/dist/controllers/main.controller.js:75:22[39m
+[31m    at processTicksAndRejections (internal/process/task_queues.js:93:5) {[39m
+[31m  code: 'ERR_HTTP_HEADERS_SENT'[39m
+[31m}[39m
