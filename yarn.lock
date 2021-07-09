@@ -3457,6 +3457,7 @@ __metadata:
     express: ^4.17.1
     husky: ^6.0.0
     jest: ^27.0.6
+    jose: ^3.14.0
     jsonwebtoken: ^8.5.1
     mocha: ^9.0.2
     morgan: ^1.10.0
@@ -4473,6 +4474,13 @@ __metadata:
   bin:
     jest: bin/jest.js
   checksum: 12b355eaa0f8f034086abbaff1e324d453891195a16d26ab2776e5df960f521d6cd7b2c4e710854aa0fc6851d3d7457106d90addfeba46d274ec8bbda641fccb
+  languageName: node
+  linkType: hard
+
+"jose@npm:^3.14.0":
+  version: 3.14.0
+  resolution: "jose@npm:3.14.0"
+  checksum: cfba42a7cac96250ed1d41b6672f50ef08225646f0971dcee1ea5acbec38dcaa9278c2facdd7335b11778042c19d7950b4f3d25dc12d964455909f9c90742b5d
   languageName: node
   linkType: hard
 

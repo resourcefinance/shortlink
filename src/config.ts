@@ -18,6 +18,7 @@ export function fetchConfig() {
     CUSTOMERIO_SITE_ID: process.env.CUSTOMERIO_SITE_ID!,
     CUSTOMERIO_API_KEY: process.env.CUSTOMERIO_API_KEY!,
     CUSTOMERIO_APP_API_KEY: process.env.CUSTOMERIO_APP_API_KEY!,
+    JWT: process.env.JWT!,
   };
 }
 

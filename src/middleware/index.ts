@@ -1,20 +1,22 @@
 import { Request, Response, NextFunction } from "express";
 
-import { verifyToken } from "../controllers/utils/auth.utils";
 import { log } from "../services";
+import { Decoded, verify } from "./jwt";
 
-export function authenticate(req: Request, res: Response, next: NextFunction) {
-  const authHeader = req.headers.authorization as string;
+export async function authenticate(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const header = req.headers.authorization as string;
 
-  if (authHeader) {
-    const token = authHeader.replace("Bearer ", "");
+  if (header) {
+    const token = header.replace("Bearer ", "");
 
-    const user = verifyToken(token) as {
-      id: string;
-      email: string;
-    };
+    const decoded = await verify({ token });
+    if (!decoded) throw new Error();
 
-    (req as any).user = user;
+    (req as any).user = (decoded as Decoded).id;
     next();
   } else {
     res.status(401).send({ ERROR: true, MESSAGE: "NOT AUTHENTICATED" });
@@ -28,14 +30,7 @@ export function unless(middleware: any, ...paths: string[]) {
   };
 }
 
-export const auth = unless(
-  authenticate,
-  "/api/",
-  "/api/token",
-  "/api/register",
-  "/api/recover",
-  "/api/reset"
-);
+export const auth = unless(authenticate, "/api/", "/api/recover", "/api/reset");
 
 export const validate = (schema) => async (req, res, next) => {
   const body = req.body;

@@ -6,7 +6,6 @@ import { validate } from "../middleware";
 import { generate, log, replaceMultiSigOwner } from "../services";
 import { sendTxEmail } from "../services/customerio";
 import { Controller } from "./types";
-import { createToken } from "./utils/auth.utils";
 
 const registerSchema = yup
   .object()
@@ -39,29 +38,6 @@ export const main: Controller = ({ prisma }) => {
 
   router.get("/", (_, res, next) => {
     res.status(200).send("OK");
-    next();
-  });
-
-  router.post("/token", async (req, res, next) => {
-    const { email } = req.body;
-
-    const user: User | null = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
-
-    if (!user) {
-      next();
-      return res.status(500).send("User not found");
-    }
-
-    const token = createToken({ id: user.userId, email: user.email });
-
-    res.status(200).json({
-      token,
-    });
-
     next();
   });
 
@@ -158,6 +134,9 @@ export const main: Controller = ({ prisma }) => {
   });
 
   router.post("/recover", validate(recoverSchema), async (req, res, next) => {
+    if (!(req as any).user)
+      res.status(401).send({ ERROR: true, MESSAGE: "NOT AUTHENTICATED" });
+
     const { validateEmailToken, email, newClientAddress } = req.body;
 
     try {
