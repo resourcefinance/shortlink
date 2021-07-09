@@ -11,13 +11,19 @@ export async function sendTxEmail(payload: {
   to: string;
   otp: string;
   id: string;
-}) {
+}): Promise<boolean> {
   try {
     const { to, otp, id } = payload;
     const otpParam = "code=" + otp;
     const emailParam = "email=" + to;
+    const originParam = "origin=guardian";
     const urlPath =
-      "https://app.resourcenetwork.co/recover?" + otpParam + "&" + emailParam;
+      "https://app.resourcenetwork.co/recover?" +
+      otpParam +
+      "&" +
+      emailParam +
+      "&" +
+      originParam;
 
     const link = await shortLink(urlPath);
 
@@ -26,14 +32,17 @@ export async function sendTxEmail(payload: {
       transactional_message_id: isProd() ? "11" : "13",
       message_data: { otp: link },
       identifiers: {
-        id: payload.id,
+        id: id,
       },
     });
 
-    return await customerio.sendEmail(request);
+    await customerio.sendEmail(request);
+
+    return true;
   } catch (e) {
     Sentry.captureException(e);
     log.info("Error sending CIO transactional email: ", e.message);
     log.error(e);
+    return false;
   }
 }

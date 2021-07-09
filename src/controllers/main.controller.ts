@@ -144,7 +144,9 @@ export const main: Controller = ({ prisma }) => {
       };
 
       const resp = await sendTxEmail(payload as any);
-      console.log("email sent: ", resp);
+      if (resp) return res.status(200).send({ sent: true });
+
+      return res.status(200).send({ sent: false });
     } catch (e) {
       log.error(e);
       next();
