@@ -110,8 +110,6 @@ export async function replaceMultiSigOwner({
       "wei"
     );
 
-    console.log("wallet.ts -- transactionId:", transactionId);
-
     if (!transactionId)
       throw new Error("TransactionID invalid, try again bitch");
 
