@@ -1,6 +1,7 @@
 import { User } from "@prisma/client";
 import { Router } from "express";
 import * as yup from "yup";
+import config from "../config";
 
 import { validate as validateSchema } from "../middleware";
 import {
@@ -8,8 +9,10 @@ import {
   validate as validateTotp,
   log,
   replaceMultiSigOwner,
+  guardianAddr,
 } from "../services";
 import { sendTxEmail } from "../services/customerio";
+import {} from "../services/wallet";
 import { Controller } from "./types";
 
 const registerSchema = yup
@@ -88,9 +91,13 @@ export const main: Controller = ({ prisma }) => {
           return;
         }
 
+        const guardian = await guardianAddr();
+
         next();
+
         return res.status(200).json({
           user,
+          guardian,
         });
       } catch (e) {
         log.error(e);

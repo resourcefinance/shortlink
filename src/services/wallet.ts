@@ -132,3 +132,7 @@ export async function replaceMultiSigOwner({
 
   return { transactionId: txId };
 }
+
+export async function guardianAddr() {
+  return (await getGuardianWallet()).address;
+}
