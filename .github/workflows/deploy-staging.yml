@@ -44,12 +44,11 @@ jobs:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           ssh -o StrictHostKeyChecking=no $username@$host << EOF
-            sudo -i
-            aws ecr get-login-password | docker login --username AWS --password-stdin 446481105531.dkr.ecr.us-east-2.amazonaws.com
-            docker pull "446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest"
-            docker ps -f name=staging-guardian -q | xargs --no-run-if-empty docker rm -f
-            docker network create guardian
-            docker run --name $DOCKER_IMAGE --env-file=/home/ubuntu/.env --network="host" -p 80:80 -d --restart always "446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest"
-            docker exec staging-guardian yarn db:migrate:prod
-            docker system prune -f
+            aws ecr get-login-password | sudo docker login --username AWS --password-stdin 446481105531.dkr.ecr.us-east-2.amazonaws.com
+            sudo docker pull "446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest"
+            sudo docker ps -f name=staging-guardian -q | xargs --no-run-if-empty docker rm -f
+            sudo docker network create guardian
+            sudo docker run --name $DOCKER_IMAGE --env-file=/home/ubuntu/.env --network="host" -p 80:80 -d --restart always "446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest"
+            sudo docker exec staging-guardian yarn db:migrate:prod
+            sudo docker system prune -f
           EOF
