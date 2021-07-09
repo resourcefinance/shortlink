@@ -13,29 +13,17 @@ export const createServer = (
 ): express.Express => {
   const app = express();
 
-  app.use(
-    cors({
-      origin: (origin, callback) => {
-        // allow requests with no origin
-        const whitelist = [
-          "http://localhost:3000",
-          "https://resourcenetwork.co",
-        ];
-
-        if (!origin) return callback(null, true);
-        if (whitelist.indexOf(origin) === -1) {
-          var message =
-            "The CORS policy for this origin does not allow access from the particular origin.";
-          return callback(new Error(message), false);
-        }
-        return callback(null, true);
-      },
-      allowedHeaders: "X-Requested-With, Content-Type, Authorization",
-      methods: "GET, POST, OPTION",
-    })
-  );
-
+  app.use((req, res, next) => {
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+  });
   app.use(express.json());
+
+  app.use(cors());
 
   if (!isProd()) {
     app.use(bodyParser.json());
