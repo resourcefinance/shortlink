@@ -14,11 +14,11 @@ export async function sendTxEmail(payload: {
 }): Promise<boolean> {
   try {
     const { to, otp, id } = payload;
-    const otpParam = "code=" + otp;
+    const otpParam = "otp=" + otp;
     const emailParam = "email=" + to;
     const originParam = "origin=guardian";
     const urlPath =
-      "https://app.resourcenetwork.co/recover?" +
+      "http://localhost:3000/recover?" +
       otpParam +
       "&" +
       emailParam +
