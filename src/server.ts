@@ -5,14 +5,18 @@ import cors from "cors";
 
 import { isProd } from "./config";
 import { Controller, ControllerDeps } from "./controllers/types";
-import { auth } from "./middleware";
+import { auth } from "./middleware/auth";
+import { limitMw, slowMw } from "./middleware";
 
 export const createServer = (
   dependencies: ControllerDeps,
   ...controllers: Controller[]
 ): express.Express => {
   const app = express();
+  app.use(express.json());
+  app.use(cors());
 
+  // cors headers
   app.use(function (req, res, next) {
     res.set("Access-Control-Allow-Origin", "*");
     res.set(
@@ -24,18 +28,23 @@ export const createServer = (
     next();
   });
 
-  app.use(express.json());
+  // rate limiting middleware
+  app.use(slowMw);
+  app.use(limitMw);
 
-  app.use(cors());
+  // auth middleware
+  app.use(auth);
 
+  // body parsing for jest tests
   if (!isProd()) {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
   }
 
-  app.use(morgan("short"));
-  app.use(auth);
+  // loggin middleware
+  app.use(morgan("dev"));
 
+  // add controllers
   for (const setupController of controllers) {
     const controller = setupController(dependencies);
     app.use(controller.path, controller.router);

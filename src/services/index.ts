@@ -6,3 +6,4 @@ export {
 } from "./wallet";
 export { log } from "./logger";
 export { shortLink } from "./link";
+export { sendTxEmail } from "./customerio";
