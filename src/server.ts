@@ -14,18 +14,16 @@ export const createServer = (
   const app = express();
 
   app.use(function (req, res, next) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set(
       "Access-Control-Allow-Methods",
       "GET, POST, OPTIONS, PUT, PATCH, DELETE"
     );
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "X-Requested-With,content-type"
-    );
+    res.set("Access-Control-Allow-Headers", "X-Requested-With,content-type");
 
     next();
   });
+
   app.use(express.json());
 
   app.use(cors());
@@ -35,7 +33,7 @@ export const createServer = (
     app.use(bodyParser.urlencoded({ extended: false }));
   }
 
-  app.use(morgan("dev"));
+  app.use(morgan("short"));
   app.use(auth);
 
   for (const setupController of controllers) {

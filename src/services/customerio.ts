@@ -29,7 +29,7 @@ export async function sendTxEmail(payload: {
 
     const request = new SendEmailRequest({
       to: payload.to,
-      transactional_message_id: isProd() ? "11" : "13",
+      transactional_message_id: "13",
       message_data: { otp: link },
       identifiers: {
         id: id,
