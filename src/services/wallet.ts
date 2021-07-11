@@ -43,6 +43,11 @@ export async function replaceMultiSigOwner({
 
     const { multiSigAddress, userId, clientAddress } = user;
 
+    if (!multiSigAddress || !clientAddress)
+      throw new Error(
+        "MultiSigAddress or ClientAddress fields do not exist on user"
+      );
+
     const multiSigWallet = new ethers.Contract(
       multiSigAddress,
       MultiSigWallet__factory.createInterface(),
@@ -131,6 +136,6 @@ export async function replaceMultiSigOwner({
   return { transactionId: txId };
 }
 
-export async function guardianAddr() {
+export async function getGuardianAddr() {
   return (await getGuardianWallet()).address;
 }

@@ -1397,6 +1397,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/debug@npm:0.0.31":
+  version: 0.0.31
+  resolution: "@types/debug@npm:0.0.31"
+  checksum: 42573b21b744cc619a7f5b86d54d63a3b4e7bd23f253dc9cfabc26b5e99ae7d1560c5c435700a989d1db0591dda5ff7d276389f6cc7e0a0f02e8f87d52658d87
+  languageName: node
+  linkType: hard
+
 "@types/express-rate-limit@npm:^5.1.3":
   version: 5.1.3
   resolution: "@types/express-rate-limit@npm:5.1.3"
@@ -1890,6 +1897,13 @@ __metadata:
   version: 1.1.1
   resolution: "array-flatten@npm:1.1.1"
   checksum: de7a056451ff7891bb1bcda6ce2a50448ca70f63cd0fa7aa90430d288b6dc2931517b6853ce16c473a7f40fa6eaa874e20b6151616db93375471d1ffadfb1d3d
+  languageName: node
+  linkType: hard
+
+"array-flatten@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "array-flatten@npm:2.1.2"
+  checksum: 46bfb198da424765f26350a8d8b207deade75d493e6d26417bfebb4027857b9fef8f5ae3bacd0b912f9a9fd2c04e2ec140c7183c0408e10950579e9d5c9dea25
   languageName: node
   linkType: hard
 
@@ -2492,6 +2506,17 @@ __metadata:
   version: 1.3.0
   resolution: "component-emitter@npm:1.3.0"
   checksum: fc4edbf1014f0aed88dcec33ca02d2938734e428423f640d8a3f94975615b8e8c506c19e29b93949637c5a281353e75fa79e299e0d57732f42a9fe346cb2cad6
+  languageName: node
+  linkType: hard
+
+"compose-middleware@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "compose-middleware@npm:5.0.1"
+  dependencies:
+    "@types/debug": 0.0.31
+    array-flatten: ^2.1.2
+    debug: ^4.1.0
+  checksum: ed633b9e27afff573d9a61cbd3c0f1564cb7aff96f10b0e2e20510d3cd303e0946ff1ea86f229473eb84b5f1c573f88b429c8b9fa5846d7b45d1dc50d6367e01
   languageName: node
   linkType: hard
 
@@ -3533,6 +3558,7 @@ __metadata:
     bcrypt: ^5.0.1
     body-parser: ^1.19.0
     chai: ^4.3.4
+    compose-middleware: ^5.0.1
     cors: ^2.8.5
     customerio-node: ^2.1.1
     dotenv: ^10.0.0

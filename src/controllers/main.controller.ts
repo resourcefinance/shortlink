@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
 import { Router } from "express";
-import * as yup from "yup";
+import { retry, retryAsyncUntilTruthy } from "ts-retry";
 
 import { validate as validateSchema } from "../middleware";
 import {
@@ -8,51 +8,65 @@ import {
   validate as validateTotp,
   log,
   replaceMultiSigOwner,
-  guardianAddr,
+  getGuardianAddr,
   sendTxEmail,
 } from "../services";
+import {
+  recoverSchema,
+  registerSchema,
+  resetSchema,
+  removeAndFetchSchema,
+  updateSchema,
+} from "./schema";
 import { Controller } from "./types";
-
-const registerSchema = yup
-  .object()
-  .shape({
-    email: yup.string().required().email(),
-    multiSigAddress: yup.string().required(),
-    clientAddress: yup.string().required(),
-    userId: yup.string().required(),
-  })
-  .required();
-
-const recoverSchema = yup
-  .object()
-  .shape({
-    validateEmailToken: yup.string().required(),
-    email: yup.string().required().email(),
-    newClientAddress: yup.string().required(),
-  })
-  .required();
-
-const resetSchema = yup
-  .object()
-  .shape({
-    email: yup.string().required().email(),
-  })
-  .required();
-
-const removeSchema = yup
-  .object()
-  .shape({
-    id: yup.string().required(),
-  })
-  .required();
 
 export const main: Controller = ({ prisma }) => {
   const r = Router();
 
+  // GET
   r.get("/", (_, res) => {
     return res.status(200).send("OK");
   });
 
+  r.get("/user", validateSchema(removeAndFetchSchema), async (req, res) => {
+    if (!(req as any).user)
+      return res
+        .status(403)
+        .send({ ERROR: true, MESSAGE: "NOT AUTHENTICATED" });
+
+    const { userId } = req.body;
+
+    if (!userId) {
+      return res.status(401).send({
+        ERROR: true,
+        MESSAGE: "NOT FOUND: PARAMS DATA AND USER ID REQUIRED",
+      });
+    }
+
+    try {
+      const user =
+        (await prisma.user.findUnique({ where: { userId } })) || null;
+
+      if (!user) {
+        return res.status(401).send({
+          ERROR: true,
+          MESSAGE: "NOT FOUND: COULD NOT FIND USER WITH USER ID: " + userId,
+        });
+      }
+
+      return res.status(200).json({ user });
+    } catch (e) {
+      log.debug("Error updating user:");
+      log.error(e);
+
+      return res.status(500).send({
+        ERROR: true,
+        MESSAGE: "INTERNAL SERVER ERROR: " + e,
+      });
+    }
+  });
+
+  // POSTS
   r.post("/register", validateSchema(registerSchema), async (req, res) => {
     if (!(req as any).user)
       return res
@@ -60,6 +74,11 @@ export const main: Controller = ({ prisma }) => {
         .send({ ERROR: true, MESSAGE: "NOT AUTHENTICATED" });
 
     const { userId, email, multiSigAddress, clientAddress } = req.body;
+    if (!(userId && email))
+      return res.status(401).send({
+        ERROR: true,
+        MESSAGE: "BAD REQUEST: PARAMS USER ID AND EMAIL REQUIRED",
+      });
 
     try {
       const exists =
@@ -78,9 +97,9 @@ export const main: Controller = ({ prisma }) => {
         data: {
           userId,
           email,
-          multiSigAddress,
           validateEmailToken,
-          clientAddress,
+          multiSigAddress: multiSigAddress || null,
+          clientAddress: clientAddress || null,
         },
       });
 
@@ -91,7 +110,7 @@ export const main: Controller = ({ prisma }) => {
         });
       }
 
-      const guardian = await guardianAddr();
+      const guardian = await getGuardianAddr();
 
       return res.status(200).json({
         user,
@@ -124,8 +143,7 @@ export const main: Controller = ({ prisma }) => {
       if (!user) {
         return res.status(401).send({
           ERROR: true,
-          MESSAGE:
-            "INTERNAL SERVER ERROR: COULD NOT FIND USER WITH EMAIL: " + email,
+          MESSAGE: "NOT FOUND: COULD NOT FIND USER WITH EMAIL: " + email,
         });
       }
 
@@ -135,10 +153,18 @@ export const main: Controller = ({ prisma }) => {
         id: user.userId,
       };
 
-      const resp = await sendTxEmail(payload as any);
-      if (resp) return res.status(200).send({ sent: true });
+      const resp: boolean = await sendTxEmail(payload as any);
 
-      return res.status(200).send({ sent: false });
+      if (!resp) {
+        await retryAsyncUntilTruthy(
+          async () => {
+            return await sendTxEmail(payload as any);
+          },
+          { delay: 100, maxTry: 5 }
+        );
+      }
+
+      return res.status(200).send({ sent: true });
     } catch (e) {
       log.debug("Error sending TOTP password:");
       log.error(e);
@@ -165,8 +191,7 @@ export const main: Controller = ({ prisma }) => {
 
         return res.status(401).send({
           ERROR: true,
-          MESSAGE:
-            "INTERNAL SERVER ERROR: COULD NOT FIND USER WITH EMAIL: " + email,
+          MESSAGE: "NOT FOUND: COULD NOT FIND USER WITH EMAIL: " + email,
         });
       }
 
@@ -180,7 +205,7 @@ export const main: Controller = ({ prisma }) => {
 
         return res.status(401).send({
           ERROR: true,
-          MESSAGE: "INTERNAL SERVER ERROR: INVALID TOKEN",
+          MESSAGE: "INVALID TOKEN",
         });
       } else {
         await prisma.user.update({
@@ -222,7 +247,7 @@ export const main: Controller = ({ prisma }) => {
     }
   });
 
-  r.post("/update", validateSchema(removeSchema), async (req, res) => {
+  r.post("/update", validateSchema(updateSchema), async (req, res) => {
     if (!(req as any).user)
       return res
         .status(403)
@@ -233,7 +258,7 @@ export const main: Controller = ({ prisma }) => {
     if (!userId || !data) {
       return res.status(401).send({
         ERROR: true,
-        MESSAGE: "INTERNAL SERVER ERROR: PARAMS DATA AND USER ID REQUIRED",
+        MESSAGE: "BAD REQUEST: PARAMS DATA AND USER ID REQUIRED",
       });
     }
 
@@ -269,7 +294,7 @@ export const main: Controller = ({ prisma }) => {
     }
   });
 
-  r.post("/remove", validateSchema(removeSchema), async (req, res) => {
+  r.post("/remove", validateSchema(removeAndFetchSchema), async (req, res) => {
     if (!(req as any).user)
       return res
         .status(403)
@@ -280,7 +305,7 @@ export const main: Controller = ({ prisma }) => {
     if (!userId) {
       return res.status(401).send({
         ERROR: true,
-        MESSAGE: "INTERNAL SERVER ERROR: USER ID PARAM REQUIRED",
+        MESSAGE: "BAD REQUEST: USER ID PARAM REQUIRED",
       });
     }
 
@@ -298,9 +323,16 @@ export const main: Controller = ({ prisma }) => {
       }
 
       const resp = await prisma.user.delete({ where: { id: user.id } });
-      if (resp) return res.status(200).send({ deleted: true });
 
-      return res.status(400).send({ deleted: false });
+      if (!resp)
+        return res.status(401).send({
+          ERROR: true,
+          MESSAGE:
+            "INTERNAL SERVER ERROR: COULD NOT DELETE USER WITH USER ID: " +
+            userId,
+        });
+
+      return res.status(200).send({ deleted: true });
     } catch (e) {
       log.debug("Error removing user:");
       log.error(e);

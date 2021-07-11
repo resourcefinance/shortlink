@@ -13,7 +13,7 @@ model User {
   updatedAt          DateTime @updatedAt
   userId             String   @unique
   email              String   @unique
-  multiSigAddress    String
-  clientAddress      String
+  multiSigAddress    String?
+  clientAddress      String?
   validateEmailToken String?
 }
