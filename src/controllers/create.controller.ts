@@ -126,7 +126,7 @@ export const main: Controller = ({ prisma }) => {
       }
 
       return res.status(200).json({
-        path: BASE + created.id,
+        link: BASE + created.id,
       });
     } catch (e) {
       log.debug("Error creating link:");
