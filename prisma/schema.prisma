@@ -15,4 +15,5 @@ model Url {
   original  String   @unique
   isExpired Boolean  @default(false)
   createdAt DateTime @default(now())
+  expires   DateTime?
 }

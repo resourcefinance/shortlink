@@ -1,6 +1,5 @@
 import express from "express";
 import morgan from "morgan";
-import bodyParser from "body-parser";
 import cors from "cors";
 
 import { isProd } from "./config";
@@ -8,6 +7,7 @@ import { Controller, ControllerDeps } from "./controllers/types";
 import { auth } from "./middleware/auth";
 import { limitMw, slowMw } from "./middleware";
 import { redirect } from "./services/link";
+import { log } from "./services";
 
 export const createServer = (
   dependencies: ControllerDeps,
@@ -67,6 +67,6 @@ export const startServer = async ({
   port: number | string;
 }) => {
   return app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+    log.info(`Server listening on port ${port}`);
   });
 };

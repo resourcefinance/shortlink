@@ -1,12 +1,17 @@
-import { Router } from 'express';
-import * as isURL from 'isurl';
-import { customAlphabet } from 'nanoid';
-import { lowercase } from 'nanoid-dictionary';
+import { Router } from "express";
+import * as isURL from "isurl";
+import { customAlphabet } from "nanoid";
+import { lowercase } from "nanoid-dictionary";
 
-import { validate as validateSchema, createSchema, removeSchema, reservedSchema } from '../middleware';
-
-import { log } from '../services';
-import { Controller } from './types';
+import {
+  validate as validateSchema,
+  createSchema,
+  removeSchema,
+  reservedSchema,
+} from "../middleware";
+import { expiresIn } from "./utils/expires";
+import { log } from "../services";
+import { Controller } from "./types";
 
 const BASE = "https://rsrc.co/";
 const nanoid = customAlphabet(lowercase + "0123456789", 6);
@@ -86,7 +91,7 @@ export const main: Controller = ({ prisma }) => {
     if (!link)
       return res.status(401).send({
         ERROR: true,
-        MESSAGE: "BAD REQUEST: PARAM ROUTE REQUIRED",
+        MESSAGE: "BAD REQUEST: PARAM LINK REQUIRED",
       });
 
     try {
@@ -103,9 +108,12 @@ export const main: Controller = ({ prisma }) => {
       }
 
       const id = nanoid();
+      const expires = expiresIn();
+
       const created = await prisma.url.create({
         data: {
           id,
+          expires,
           original: link,
         },
       });

@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsnd --respawn --transpile-only ./src",
     "seed": "prisma db seed --preview-feature",
     "start": "node dist/index.js",
     "start:watch": "nodemon dist/index.js",
