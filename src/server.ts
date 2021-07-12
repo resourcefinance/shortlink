@@ -7,11 +7,13 @@ import { isProd } from "./config";
 import { Controller, ControllerDeps } from "./controllers/types";
 import { auth } from "./middleware/auth";
 import { limitMw, slowMw } from "./middleware";
+import { redirect } from "./services/link";
 
 export const createServer = (
   dependencies: ControllerDeps,
   ...controllers: Controller[]
 ): express.Express => {
+  const { prisma } = dependencies;
   const app = express();
   app.use(express.json());
   app.use(cors());
@@ -35,12 +37,6 @@ export const createServer = (
   // auth middleware
   app.use(auth);
 
-  // body parsing for jest tests
-  if (!isProd()) {
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: false }));
-  }
-
   // loggin middleware
   app.use(morgan("dev"));
 
@@ -49,6 +45,15 @@ export const createServer = (
     const controller = setupController(dependencies);
     app.use(controller.path, controller.router);
   }
+  // base redirect route
+  app.get("/:id", async (req, res) => {
+    const { id } = req.params;
+    const { link } = await redirect({ id, prisma });
+    console.log("server.ts -- link:", link);
+    if (!link) return res.redirect("https://app.resourcenetwork.co/login");
+
+    return res.redirect(link);
+  });
 
   return app;
 };

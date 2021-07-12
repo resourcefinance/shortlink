@@ -1,8 +1,8 @@
-name: Deploy - Staging
+name: Deploy
 on:
   push:
     branches:
-      - staging
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -23,7 +23,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          DOCKER_IMAGE: staging-guardian
+          DOCKER_IMAGE: shortlink
         run: |
           aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 446481105531.dkr.ecr.us-east-2.amazonaws.com
           docker build -t $DOCKER_IMAGE:latest .
@@ -37,8 +37,8 @@ jobs:
           ssh-add - <<< "${{ secrets.DEPLOY_SSH_KEY }}"
       - name: Deploy to server
         env:
-          DOCKER_IMAGE: staging-guardian
-          host: 18.116.235.132
+          DOCKER_IMAGE: shortlink
+          host: 18.117.86.251
           username: ubuntu
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
@@ -46,9 +46,8 @@ jobs:
           ssh -o StrictHostKeyChecking=no $username@$host << EOF
             aws ecr get-login-password | sudo docker login --username AWS --password-stdin 446481105531.dkr.ecr.us-east-2.amazonaws.com
             sudo docker pull "446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest"
-            sudo docker ps -f name=staging-guardian -q | xargs --no-run-if-empty sudo docker rm -f
-            sudo docker network create guardian
+            sudo docker ps -f name=shortlink -q | xargs --no-run-if-empty sudo docker rm -f
             sudo docker run --name $DOCKER_IMAGE --env-file=/home/ubuntu/.env --network="host" -p 80:80 -d --restart always "446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest"
-            sudo docker exec staging-guardian yarn db:migrate:prod
+            sudo docker exec shortlink yarn db:migrate:prod
             sudo docker system prune -f
           EOF

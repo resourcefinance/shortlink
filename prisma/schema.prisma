@@ -1,19 +1,18 @@
-generator prisma_client_js {
-  provider = "prisma-client-js"
-}
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
   provider = "postgresql"
   url      = env("POSTGRES")
 }
 
-model User {
-  id                 String   @id @default(cuid())
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  userId             String   @unique
-  email              String   @unique
-  multiSigAddress    String?
-  clientAddress      String?
-  validateEmailToken String?
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Url {
+  id        String   @unique
+  original  String   @unique
+  isExpired Boolean  @default(false)
+  createdAt DateTime @default(now())
 }

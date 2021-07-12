@@ -10,15 +10,24 @@ export async function authenticate(
 ) {
   const header = req.headers.authorization as string;
 
-  if (header) {
-    const token = header.replace("Bearer ", "");
+  try {
+    if (header) {
+      const token = header.replace("Bearer ", "");
 
-    const decoded = await verify({ token });
-    if (!decoded) throw new Error();
+      const decoded = await verify({ token });
+      if (!decoded) throw new Error();
 
-    (req as any).user = (decoded as Decoded).id;
-    next();
-  } else {
+      (req as any).user = (decoded as Decoded).id;
+      next();
+    } else {
+      return res
+        .status(403)
+        .send({ ERROR: true, MESSAGE: "NOT AUTHENTICATED" });
+    }
+  } catch (e) {
+    log.debug("Error decoding jwt: ", e);
+    log.error(e);
+
     return res.status(403).send({ ERROR: true, MESSAGE: "NOT AUTHENTICATED" });
   }
 }
@@ -30,7 +39,7 @@ export function unless(middleware: any, ...paths: string[]) {
   };
 }
 
-export const auth = unless(authenticate, "/api/", "/api/recover", "/api/reset");
+export const auth = unless(authenticate, "/api/create", "/:id");
 
 export const validate = (schema) => async (req, res, next) => {
   const body = req.body;

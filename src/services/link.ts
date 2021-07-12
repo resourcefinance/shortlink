@@ -1,33 +1,22 @@
-import axios, { AxiosRequestConfig } from "axios";
+import { PrismaClient } from "@prisma/client";
+
 import { log } from "./logger";
 
-export async function shortLink(path: string) {
-  const baseRedirect = "https://rsrc.co/";
-  const endpoint = baseRedirect + "api/url";
-
-  const config: AxiosRequestConfig = {
-    method: "POST",
-    url: endpoint,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: {
-      url: path,
-    },
-  };
-
+export async function redirect({
+  id,
+  prisma,
+}: {
+  id: any;
+  prisma: PrismaClient;
+}) {
   try {
-    const {
-      data: {
-        data: { id },
-      },
-    } = await axios(config);
+    const link = await prisma.url.findUnique({ where: { id } });
+    console.log("link.ts -- link:", link);
+    if (!link) throw new Error();
 
-    if (id) return baseRedirect + id;
-
-    return path;
+    return { link: link.original };
   } catch (e) {
-    log.debug("Error generating shortlink: " + e.message);
-    log.error(e);
+    log.error("Error on redirect shortlink: ", e);
+    return { link: null };
   }
 }
