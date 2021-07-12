@@ -1,8 +1,10 @@
-name: Deploy
+name: Deploy - Main
+
 on:
   push:
     branches:
       - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -47,7 +49,7 @@ jobs:
             aws ecr get-login-password | sudo docker login --username AWS --password-stdin 446481105531.dkr.ecr.us-east-2.amazonaws.com
             sudo docker pull "446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest"
             sudo docker ps -f name=shortlink -q | xargs --no-run-if-empty sudo docker rm -f
-            sudo docker run --name $DOCKER_IMAGE --env-file=/home/ubuntu/.env --network="host" -p 80:80 -d --restart always "446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest"
+            sudo docker run --name $DOCKER_IMAGE --env-file=/home/ec2-user/.env --network="host" -p 80:80 -d --restart always "446481105531.dkr.ecr.us-east-2.amazonaws.com/$DOCKER_IMAGE:latest"
             sudo docker exec shortlink yarn db:migrate:prod
             sudo docker system prune -f
           EOF
