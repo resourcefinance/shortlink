@@ -39,7 +39,7 @@ jobs:
         env:
           DOCKER_IMAGE: shortlink
           host: 18.117.86.251
-          username: ubuntu
+          username: ec2-user
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
