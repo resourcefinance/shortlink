@@ -23,7 +23,7 @@ export const createServer = (
     res.set("Access-Control-Allow-Origin", "*");
     res.set(
       "Access-Control-Allow-Methods",
-      "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+      "GET, POST, OPTIONS, PUT, PATCH, DELETE",
     );
     res.set("Access-Control-Allow-Headers", "X-Requested-With,content-type");
 
@@ -48,8 +48,9 @@ export const createServer = (
   // base redirect route
   app.get("/:id", async (req, res) => {
     const { id } = req.params;
+
     const { link } = await redirect({ id, prisma });
-    console.log("server.ts -- link:", link);
+
     if (!link) return res.redirect("https://app.resourcenetwork.co/login");
 
     return res.redirect(link);

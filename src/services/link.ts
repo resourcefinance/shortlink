@@ -11,7 +11,7 @@ export async function redirect({
 }) {
   try {
     const link = await prisma.url.findUnique({ where: { id } });
-    console.log("link.ts -- link:", link);
+
     if (!link) throw new Error();
 
     return { link: link.original };
