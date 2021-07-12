@@ -6,7 +6,7 @@ import { Decoded, verify } from "./jwt";
 export async function authenticate(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   const header = req.headers.authorization as string;
 
@@ -34,12 +34,14 @@ export async function authenticate(
 
 export function unless(middleware: any, ...paths: string[]) {
   return function (req: Request, res: Response, next: NextFunction) {
-    const pathCheck = paths.some((path) => path === req.path);
+    let pathCheck = true;
+    if (req.method !== "GET")
+      pathCheck = paths.some((path) => path === req.path);
     pathCheck ? next() : middleware(req, res, next);
   };
 }
 
-export const auth = unless(authenticate, "/api/create", "/:id");
+export const auth = unless(authenticate, "/api/", "/api/create", "/:id");
 
 export const validate = (schema) => async (req, res, next) => {
   const body = req.body;

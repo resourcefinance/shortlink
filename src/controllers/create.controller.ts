@@ -1,14 +1,12 @@
-import { Router } from "express";
-import { retry, retryAsyncUntilTruthy } from "ts-retry";
-import { customAlphabet } from "nanoid";
-import { lowercase } from "nanoid-dictionary";
+import { Router } from 'express';
+import * as isURL from 'isurl';
+import { customAlphabet } from 'nanoid';
+import { lowercase } from 'nanoid-dictionary';
 
-import { validate as validateSchema } from "../middleware";
-import { log } from "../services";
+import { validate as validateSchema, createSchema, removeSchema, reservedSchema } from '../middleware';
 
-import { reservedSchema, createSchema, removeSchema } from "./schema";
-import { Controller } from "./types";
-import * as isURL from "isurl";
+import { log } from '../services';
+import { Controller } from './types';
 
 const BASE = "https://rsrc.co/";
 const nanoid = customAlphabet(lowercase + "0123456789", 6);
