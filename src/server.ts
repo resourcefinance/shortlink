@@ -8,6 +8,7 @@ import { auth } from "./middleware/auth";
 import { limitMw, slowMw } from "./middleware";
 import { redirect } from "./services/link";
 import { log } from "./services";
+import helmet from "helmet";
 
 export const createServer = (
   dependencies: ControllerDeps,
@@ -17,7 +18,7 @@ export const createServer = (
   const app = express();
   app.use(express.json());
   app.use(cors());
-
+  app.use(helmet());
   // cors headers
   app.use(function (req, res, next) {
     res.set("Access-Control-Allow-Origin", "*");

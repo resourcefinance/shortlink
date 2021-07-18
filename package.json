@@ -67,6 +67,7 @@
     "express": "^4.17.1",
     "express-rate-limit": "^5.3.0",
     "express-slow-down": "^1.4.0",
+    "helmet": "^4.6.0",
     "isurl": "^4.0.2",
     "jose": "^3.14.0",
     "jsonwebtoken": "^8.5.1",
